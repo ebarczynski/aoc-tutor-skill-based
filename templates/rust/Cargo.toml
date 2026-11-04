@@ -1,0 +1,10 @@
+[package]
+name = "day01"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+
+# Release builds keep overflow checks on: debug builds check, release wraps
+# silently — correctness beats microseconds in December.
+[profile.release]
+overflow-checks = true

@@ -15,7 +15,11 @@ Agents follow the red-green workflow anchored on AoC's own worked examples (samp
 | `aoc-rust` | Rust 2024 lane: ownership, iterators, clippy, cargo red-green | read, edit, search, execute, web, todo |
 | `aoc-review` | Post-solve review: correctness evidence, complexity audit, idiom findings | read, search, execute, web — **no edit**, manual-select only |
 
-Supporting material: `.github/copilot-instructions.md` (the teaching contract — applies to every chat in the workspace) and `references/` (algorithm playbook, mermaid templates, toolchain cheat sheet).
+Supporting material: `.github/copilot-instructions.md` (the teaching contract — applies to every chat in the workspace), `references/` (algorithm playbook, mermaid templates, toolchain cheat sheet), and `templates/` + `scripts/new_day.sh` (day scaffolds).
+
+## Day scaffolds
+
+From your puzzle repo root: `./scripts/new_day.sh <NN> <cpp|python|rust>` creates `dayNN/` from `templates/` — the sample test is wired **red first** (`SAMPLE_EXPECTED_*` sentinels that fail with a "fill the expected answer" message), `part1`/`part2` stubs fail loudly, the CLI times every run, and each lane gets its hygiene tooling (C++: sanitizers + clang-tidy target; Python: zero-dep test runner + pytest option; Rust: edition 2024 + release overflow-checks). Details in `templates/README.md`.
 
 ## Install (per puzzle repository)
 

@@ -37,3 +37,4 @@ Current-version notes were checked against public release pages on 2026-11-04; r
 - One directory per day: `dayXX/` with `input_sample.txt` (from the public statement) and code; **never commit your personalized `input.txt`** (see `.gitignore`).
 - Sample input/expected answer from the statement = the first failing test, in every language.
 - Keep `notes/` per day: the approach comparison and the final complexity justification. Future-you in part 2 says thank you.
+- Scaffold a new day: `./scripts/new_day.sh <NN> <cpp|python|rust>` from the repo root — creates `dayNN/` with the sample test wired red-first (see `templates/README.md`).

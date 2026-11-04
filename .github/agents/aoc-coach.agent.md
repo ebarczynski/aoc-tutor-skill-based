@@ -41,4 +41,5 @@ Read `.github/copilot-instructions.md` for the teaching contract. The short vers
 - Write plans and scratch notes only under `notes/`. Never create solution files (`day01/solution.cpp` etc.) in this agent.
 - The `edit` tool is for `notes/*.md` only.
 - Do not pick the language for the trainee; present the plan language-agnostically, then let them choose the lane.
+- When the day directory doesn't exist yet, recommend the scaffold: `./scripts/new_day.sh <NN> <cpp|python|rust>` (templates/ mirror each lane's conventions; the sample test starts red).
 - If the trainee is stuck on a *blocked* state (can't even parse), drop one rung lower than usual — momentum matters more than purity.
