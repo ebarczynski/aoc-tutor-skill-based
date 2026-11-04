@@ -1,0 +1,25 @@
+# AoC personalized puzzle inputs are per-user licensed — never commit them
+**/input.txt
+**/input*.txt
+**/inputs/
+**/day*/in.txt
+!**/input_sample.txt
+!**/sample*.txt
+
+# Build artifacts
+target/
+build/
+*.out
+*.o
+day*/day*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Editor
+.vscode/*
+!.vscode/settings.json
+.idea/
