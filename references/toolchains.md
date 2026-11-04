@@ -5,9 +5,10 @@ Current-version notes were checked against public release pages on 2026-11-04; r
 ## C++ (baseline C++23; C++26 per-feature, support-gated)
 
 - Check feature support before use: <https://en.cppreference.com/w/cpp/compiler_support>, <https://gcc.gnu.org/projects/cxx-status.html>, Clang C++ status page.
-- Build (fast, warnings on): `g++ -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -O2 dayXX_pY.cpp -o dayXX_pY`
+- Scaffolded days use CMake presets (CMake ≥ 3.25): `cmake --preset debug && cmake --build --preset debug`, tests via `ctest --preset sample --output-on-failure` (ASan+UBSan on), timed real runs via `cmake --preset release && cmake --build --preset release` then `cmake --build --preset release -t run-p1`.
+- Build (fast, warnings on, no scaffold): `g++ -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -O2 dayXX_pY.cpp -o dayXX_pY`
 - Debug + sanitizers: `g++ -std=c++23 -g -fsanitize=address,undefined -fno-omit-frame-pointer dayXX_pY.cpp -o dayXX_pY_dbg`
-- Static analysis: `clang-tidy dayXX_pY.cpp -- -std=c++23 -Wall -Wextra`
+- Static analysis: `clang-tidy -p build/debug day01.cpp day01_test.cpp` (the debug preset exports `compile_commands.json`; run from inside `dayNN/`)
 - C++23 sweet spots for AoC: `std::print`, ranges (`views::split`, `views::enumerate`, `views::chunk`, `views::slide`, `to<vector>`), `std::from_chars`, `std::expected`, `std::mdspan`, `string::contains`.
 - C++26 (verify support first): reflection, pack indexing, placeholder `_`, `std::execution`, `std::simd`.
 - Core Guidelines: <https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines>

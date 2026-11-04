@@ -1,7 +1,9 @@
 // First failing test: the statement's sample input + its published answers.
 // 1. Paste the sample block into input_sample.txt
 // 2. Fill expected_p1 / expected_p2 below with the answers from the statement.
-// 3. `make test` — red for the *right* reason, then implement in dayNN.hpp.
+// 3. cmake --build --preset debug && ctest --preset sample --output-on-failure
+//    — red for the *right* reason, then implement in dayNN.hpp. (ctest does
+//    NOT rebuild — always build before testing.)
 #include <cstdint>
 #include <fstream>
 #include <iostream>
@@ -58,7 +60,7 @@ int main() {
     run("part1 on sample", 1, expected_p1);
     run("part2 on sample", 2, expected_p2);
     if (failures == 0) {
-        std::cout << "ALL GREEN — now run the real input: make run-p1\n";
+        std::cout << "ALL GREEN — now build release and run the real input (see templates/README.md)\n";
         return 0;
     }
     std::cout << failures << " failing — stay red until green\n";

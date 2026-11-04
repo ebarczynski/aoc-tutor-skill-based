@@ -24,12 +24,15 @@ Every scaffold encodes the repo teaching contract (`.github/copilot-instructions
 
 ## C++23 (`templates/cpp`)
 
-Requires GCC 13+ or Clang 17+ (`make STD=-std=c++20` to downgrade the flag;
-feature-test macros in `day01.cpp` fall back from `std::println` to `std::cout`).
+Requires CMake ≥ 3.25 (for the presets) and GCC 13+ or Clang 17+; feature-test
+macros in `day01.cpp` fall back from `std::println` to `std::cout` on older
+libstdc++. All commands run from inside `dayNN/`:
 
-    make -C dayNN test        # sample tests under ASan+UBSan, warnings-on
-    make -C dayNN run-p1      # optimized binary on the real input, timed
-    make -C dayNN tidy        # clang-tidy (cppcoreguidelines, bugprone, performance)
+    cmake --preset debug && cmake --build --preset debug   # ASan+UBSan build
+    cmake --build --preset debug && ctest --preset sample --output-on-failure  # rebuild + red-green anchor
+    cmake --preset release && cmake --build --preset release
+    cmake --build --preset release -t run-p1               # timed run, real input
+    cmake --build --preset debug -t tidy                   # clang-tidy, if installed
 
 ## Python 3 (`templates/python`, 3.12+ stdlib only)
 

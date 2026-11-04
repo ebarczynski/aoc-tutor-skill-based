@@ -1,5 +1,7 @@
 // Day binary: ./day01 <1|2> <input-file>
-// `make test` runs the sample under ASan+UBSan first — red-green before this.
+// Sample tests run under ASan+UBSan first — red-green before this:
+//   cmake --preset debug && cmake --build --preset debug
+//   ctest --preset sample --output-on-failure
 // Each run is timed: measure, don't guess (repo teaching contract, §5).
 #include <chrono>
 #include <fstream>

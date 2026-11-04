@@ -21,6 +21,8 @@ Supporting material: `.github/copilot-instructions.md` (the teaching contract �
 
 From your puzzle repo root: `./scripts/new_day.sh <NN> <cpp|python|rust>` creates `dayNN/` from `templates/` — the sample test is wired **red first** (`SAMPLE_EXPECTED_*` sentinels that fail with a "fill the expected answer" message), `part1`/`part2` stubs fail loudly, the CLI times every run, and each lane gets its hygiene tooling (C++: sanitizers + clang-tidy target; Python: zero-dep test runner + pytest option; Rust: edition 2024 + release overflow-checks). Details in `templates/README.md`.
 
+`templates/cpp` builds with **CMake presets** (debug = sanitizers + `ctest --preset sample`, release = timed runs; CMake ≥ 3.25). CI (`.github/workflows/scaffold-e2e.yml`) keeps the templates honest: on every push/PR it scaffolds a scratch day per lane and proves the full contract — red with the sentinel guidance, then green after filling expected values + stubs.
+
 ## Install (per puzzle repository)
 
 1. Copy into your AoC solution repo (e.g. `my-aoc-2026/`):
