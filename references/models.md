@@ -4,7 +4,7 @@ These agents are written for **low-cost models** and pin them deliberately — m
 
 ## Per-agent pinning
 
-Every agent carries `model: ['haiku 5.5', 'luna 6']` (preferred order, fallback second). We deliberately did **not** guess which of the two reasons better: if you know, put your stronger cheap model first in exactly two places — `AoC Algorithms` (complexity trade-offs are the reasoning-heaviest role) and `AoC Review` (the comprehension gate must catch hand-waving). Mechanical lanes (build/test/parse idioms) are safe on either.
+Every agent carries `model: ['GPT-6 Luna', 'Claude Haiku 5.5']` (preferred order, fallback second). We deliberately did **not** guess which of the two reasons better: if you know, put your stronger cheap model first in exactly two places — `AoC Algorithms` (complexity trade-offs are the reasoning-heaviest role) and `AoC Review` (the comprehension gate must catch hand-waving). Mechanical lanes (build/test/parse idioms) are safe on either.
 
 Optional, Copilot harness only: `model-policy: preferred` in frontmatter expresses "prefer this list, don't hard-require it". Not forwarded to converted plugin agents — don't rely on `required`.
 

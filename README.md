@@ -35,7 +35,7 @@ From your puzzle repo root: `./scripts/new_day.sh <NN> <cpp|python|rust>` create
    - `references/`
 2. Open the repo in VS Code with GitHub Copilot Chat (recent version required; agents were written against the custom-agent docs as of **2026-11-04**).
 3. In the Chat view, pick the agent from the **Agent** dropdown (type `@`/open the picker depending on your harness). Start with `aoc-coach`, paste the puzzle statement.
-4. **Models**: every agent pins `model: ['haiku 5.5', 'luna 6']` (prioritized array, first available wins). Replace with the exact IDs from your model picker if yours differ.
+4. **Models**: every agent pins `model: ['GPT-6 Luna', 'Claude Haiku 5.5']` (prioritized array, first available wins). Replace with the exact IDs from your model picker if yours differ.
 5. **Token visibility**: set `chat.subagents.showCreditUsage: true` — credit usage per subagent shows on the response pill and hover. Details, economics, and pros/cons: `references/models.md`.
 
 Also usable user-level (available in every workspace): copy the `.agent.md` files to `~/.copilot/agents/`. Older `.chatmode.md` files are superseded by this format — rename them.

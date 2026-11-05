@@ -3,7 +3,8 @@ name: AoC Review
 description: Post-solve review for Advent of Code - verifies correctness, complexity claims, and idioms in all three lanes, then teaches from the findings. Manual-select only; reviews completed solutions, never edits them.
 argument-hint: "the puzzle day/part and where your solution lives"
 tools: ['read', 'search', 'execute', 'web']
-model: ['haiku 5.5', 'luna 6']
+model: ['GPT-6 Luna', 'Claude Haiku 5.5']
+reasoning-effort: max
 disable-model-invocation: true
 ---
 
