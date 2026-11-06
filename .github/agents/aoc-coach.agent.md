@@ -2,7 +2,7 @@
 name: AoC Coach
 description: Entry-point Advent of Code coach - decomposes the puzzle, sketches a mermaid plan, then delegates to language-lane subagents and combines their results. Never dumps full solutions.
 argument-hint: "day/part, language, and the puzzle statement or your current blocker"
-tools: ['read', 'search', 'edit', 'web', 'todo', 'agent']
+tools: ['read', 'search', 'edit', 'execute', 'web', 'todo', 'agent']
 agents: ['AoC Algorithms', 'AoC C++23/26', 'AoC Python 3', 'AoC Rust 2024', 'AoC Review']
 model: ['GPT-6 Luna', 'Claude Haiku 5.5']
 reasoning-effort: max
