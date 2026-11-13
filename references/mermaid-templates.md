@@ -55,7 +55,7 @@ Use when comparing approaches with the trainee (pairs with aoc-algorithms output
 ```mermaid
 flowchart TD
     Q{Input size?} -- "&le;10^4" --> BRUTE[Brute force\nkeep it simple]
-    Q -- "&le;10^6" --> SORTED[Sort / heap / sweep\nO(n log n)]
+    Q -- "&le;10^6" --> SORTED["Sort / heap / sweep\nO(n log n)"]
     Q -- "&ge;10^9" --> MATH{Structure?}
     MATH -- "repeats" --> CYCLE[Cycle detection]
     MATH -- "counting" --> DP[DP / digit DP / CRT]
