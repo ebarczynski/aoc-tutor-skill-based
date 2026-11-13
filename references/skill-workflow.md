@@ -1,24 +1,24 @@
-# Experiment: one coach, inline skills
+# AoC Skills Coach: one coach, inline skills
 
-Select **AoC Skills Coach** and stay in that conversation from understanding the puzzle to reviewing your implementation. The coach loads relevant knowledge instead of dispatching subagents. It is a standalone package (one agent file + the skills directory) and works whether or not the subagent-based **AoC Coach** agents are present.
+Select **AoC Skills Coach** and stay in that conversation from understanding the puzzle to reviewing your implementation. The coach loads relevant knowledge inline. The complete runtime package is one agent file plus the skills directory.
 
-The experiment optimizes for learning and a smoother conversation, not for fewer words at all costs. Expect explanations of causes, trade-offs and applications outside AoC, with one manageable next decision. More detail does not mean more solution code.
+The workflow optimizes for learning and a smoother conversation, not for fewer words at all costs. Expect explanations of causes, trade-offs and applications outside AoC, with one manageable next decision. More detail does not mean more solution code.
 
 ## Get started
 
-In this repository, start a fresh Copilot chat and select **AoC Skills Coach**. For another puzzle repository, copy:
+Start a fresh Copilot chat in this workspace and select **AoC Skills Coach**. To use it in another puzzle workspace, copy:
 
 - [The coach agent](../.github/agents/aoc-skills-coach.agent.md) into `.github/agents/`.
 - The complete [skills directory](../.github/skills/) into `.github/skills/` (each skill folder carries its own bundled references).
 - Optionally, [templates](../templates/) and [the scaffold script](../scripts/new_day.sh). Skills reuse a day scaffold when one exists and otherwise adapt to the workspace's build files.
 
-That agent file plus the skills directory is the complete workflow package. It has no links to or runtime dependency on the subagent-based agents, `.github/copilot-instructions.md` or this `references/` directory. If the target repository has its own Copilot instructions, the coach follows whichever rule is stricter.
+That agent file plus the skills directory is the complete runtime package. The other files in this repository are documentation or optional scaffolding. If the target workspace has its own Copilot instructions, the coach follows whichever rule is stricter.
 
 Use **Chat: Open Customizations** to check that the agent and nine skills are discovered. Start a new session after installing if the current session does not see them. Skill names should also appear when typing `/`; discovery alone does not prove automatic selection.
 
-Project skills are discoverable workspace-wide, not private to a particular agent. Selecting the original coach does not hide the experimental skills. For a clean baseline comparison, use a separate copy of the original setup without the new skills (and avoid matching personal/global skills).
+Project skills are discoverable workspace-wide, not private to a particular agent. Use **AoC Skills Coach** as the entry point for the intended learning flow. User-level or other workspace skills may also be discovered.
 
-No model is pinned in the experimental agent: use your selected model. Keep approval controls enabled. Editing and execution tools are available for explicit requests, so the teaching rules are behavioral constraints, not a technical read-only boundary.
+No model is pinned in the agent: use your selected model. Keep approval controls enabled. Editing and execution tools are available for explicit requests, so the teaching rules are behavioral constraints, not a technical read-only boundary.
 
 Example opening:
 
@@ -71,7 +71,7 @@ flowchart TB
 
 The coach carries the no-spoiler ladder itself: understand -> model -> compare -> represent -> test -> hint -> tiny toy example -> outline; full solution only on explicit request. Stop at the rung that lets the trainee continue. Do not accumulate snippets into an unsolicited complete solution.
 
-The experiment additionally requires:
+The workflow also requires:
 
 - **No automatic edits:** code, tests, scaffolds, configuration and scratch files are trainee-owned. "Help me optimize" or "review this" does not authorize edits. A formatter, generator, dependency install or shell redirection is not a loophole.
 - **Scoped consent:** "Add this sample assertion" permits that assertion, not a solver. "Show the full solution" permits displaying it with a walkthrough, not writing files. Permission is bounded to the requested change.
@@ -94,8 +94,6 @@ The experiment additionally requires:
 | [aoc-rust-instrumentation](../.github/skills/aoc-rust-instrumentation/SKILL.md) | Cargo, clippy, profiles, release timing |
 | [aoc-quality-review](../.github/skills/aoc-quality-review/SKILL.md) | Invited post-solve review and learning retrospective |
 
-The content started from the subagent-based lanes but is maintained independently here: delegation briefs and ledgers are removed, language-independent measurement is extracted, edit consent is stricter, and hardcoded "current release"/runtime-cutoff claims are replaced by checks at use time. No skill links back to an agent file.
-
 ## What a session feels like
 
 | Trainee says | Coach does | Trainee keeps ownership of |
@@ -108,23 +106,21 @@ The content started from the subagent-based lanes but is maintained independentl
 | "Please add just this sample test." | Makes only that requested edit and explains it | Implementing the solver |
 | "Done; review my design." | Asks about complexity, a defended choice and a concern before findings | Explaining the design and deciding whether to refactor |
 
-For manual skill selection, stay on **AoC Skills Coach** and use, for example, `/aoc-performance-lab` or `/aoc-cpp-instrumentation`. Invoking a skill does not itself authorize commands or edits. A direct skill invocation from another agent is not a substitute for selecting the experimental coach.
+For manual skill selection, stay on **AoC Skills Coach** and use, for example, `/aoc-performance-lab` or `/aoc-cpp-instrumentation`. Invoking a skill does not itself authorize commands or edits; use the coach to preserve the intended teaching flow.
 
-## Validate and compare the experiment
+## Validate the workflow
 
-Use the reusable [coaching scenarios](./skill-workflow-evals.json). They cover C++ lifetime diagnostics and no-edit consent, Python measurement honesty, and Rust review/scoped-edit boundaries. They test the skills workflow on its own; the baseline comparison below is optional and only possible while the subagent-based agents still exist.
+Use the reusable [coaching scenarios](./skill-workflow-evals.json). They cover C++ lifetime diagnostics and no-edit consent, Python measurement honesty, and Rust review/scoped-edit boundaries.
 
-For an honest UI comparison, run each scenario in a fresh chat with the same model, tools and repository state:
+For each scenario, use a fresh chat with the same model, tools and repository state:
 
-1. Select original **AoC Coach** in an original-only workspace for the baseline, then **AoC Skills Coach** in a separate experimental workspace/chat. Do not mix their instructions or skill discovery.
-2. Send each scenario turn separately. Inspect tool activity, skill selection, unexpected edits, spoiler level and whether the coach waits at decision points.
+1. Select **AoC Skills Coach** and send each scenario turn separately.
+2. Inspect tool activity, skill selection, unexpected edits, spoiler level and whether the coach waits at decision points.
 3. Check language routing separately from explicit `/skill-name` invocation. Only the matching language should load; performance should compose with its instrumentation.
 4. Score the scenario expectations and ask an engineer whether the explanation was useful, coherent and appropriately detailed. Fewer tokens is not the objective.
-5. Also try an unknown language, a switch of language, an unfinished part 2, unavailable tooling, and "show the full solution" without file-write permission.
+5. Also try an unknown language, a language switch, an unfinished part 2, unavailable tooling, and "show the full solution" without file-write permission.
 
-Instruction-level scenario simulations and metadata/link/Mermaid checks are useful smoke tests, not proof of actual VS Code discovery, automatic skill invocation, permission enforcement or improved learning outcomes. Verify those in the intended Copilot harness before adopting this team-wide. No performance or UX superiority is claimed without that comparison.
-
-Initial smoke evaluation (2026-11-13): three scenarios, one simulated run per configuration, five manually assessed expectations per scenario. Both the experimental instructions and original-agent baseline met all 15 expectations. This confirms shared teaching safeguards in the simulated responses, not a UX advantage; the checks are deliberately safety-focused and do not discriminate learning quality. No token, timing or live-harness measurements were available.
+Instruction-level scenario simulations and metadata/link/Mermaid checks are useful smoke tests, not proof of actual VS Code discovery, automatic skill invocation, permission enforcement or improved learning outcomes. Verify those in the intended Copilot harness before rolling the workflow out to a team. These smoke tests alone do not establish improved performance, learning outcomes or UX.
 
 ## Platform references
 

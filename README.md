@@ -1,68 +1,98 @@
-# AoC Coach — Copilot agent set for Advent of Code
+# AoC Skills Coach
 
-A set of GitHub Copilot **custom agents** (`.agent.md`) that coach a team through Advent of Code in **C++23/26**, **Python 3**, and **Rust (edition 2024)** — teaching-first: problem decomposition, mermaid diagrams, algorithm comparison with complexity pros/cons, doc citations. No one-shot solutions; the point is that the prompter learns something.
+An AI-augmented Advent of Code learning workflow built around **one Copilot
+agent and a set of reusable skills**. The coach stays with the trainee in one
+conversation and loads only the knowledge needed for the current question.
+All coaching stays in that conversation.
 
-Agents follow the red-green workflow anchored on AoC's own worked examples (sample input + expected answer = the first failing test), and reference authoritative docs (cppreference, Core Guidelines, docs.python.org, PEPs, Rust Book/std/Edition Guide) instead of reciting from memory.
+The workflow supports **C++23/26**, **Python 3**, and **Rust 2024**. Its goal is
+to help engineers become better problem solvers—not to produce one-shot
+answers.
 
-## Experiment: one agent + skills
+## Learning principles
 
-Prefer one continuous conversation over subagent delegation? Select **AoC Skills Coach**: a separate experimental workflow with **one agent and nine inline skills** for algorithm design, three language lanes, shared performance experiments, three language-specific instrumentation lanes, and invited quality review.
+- **Teach, don't solve.** Start from the trainee's understanding and give one
+  manageable next step. Do not provide a complete puzzle solution unless
+  explicitly asked.
+- **The trainee owns the implementation.** Do not edit code, tests, scaffolds,
+  configuration, or scratch files without an explicit request for that
+  specific change. Consent is scoped.
+- **Sample first.** Use the puzzle's public sample as the red-green anchor for
+  each part. Run personalized input only after the current part's sample is
+  green, edge cases are checked, and the trainee agrees.
+- **Explain the engineering.** Discuss assumptions, invariants, trade-offs,
+  complexity, correctness, and how a technique transfers to day-to-day work.
+- **Measure, don't guess.** Ground performance advice in actual input sizes,
+  profiles, or repeatable measurements. Keep personalized puzzle input private.
 
-The trainee still implements the puzzle. The coach explains causes and trade-offs in more depth, offers one next step, and **edits code/tests/scaffolds only when explicitly asked**. Skills load into the same conversation; there are no handoffs, subagent calls or forked contexts. The agent file plus `.github/skills/` is a standalone package with no links to the subagent-based agents, so either set can be removed independently. Skills are discoverable workspace-wide; use an original-only copy for an isolated baseline comparison.
+## What's included
 
-Start with the [setup, Mermaid architecture and walkthrough](references/skill-workflow.md). Reusable [evaluation scenarios](references/skill-workflow-evals.json) cover no-edit consent, measurement honesty and review boundaries. The experimental agent uses your selected model rather than pinning one.
+| Component | Purpose |
+|---|---|
+| [AoC Skills Coach](.github/agents/aoc-skills-coach.agent.md) | Guides the trainee through the puzzle, routes relevant skills, and keeps the conversation in one voice. |
+| [Algorithm design](.github/skills/aoc-algorithm-design/SKILL.md) | Models the problem and teaches algorithm choices such as graph search, dynamic programming, cycle detection, and interval methods. Includes a bundled algorithm playbook. |
+| [C++ coaching](.github/skills/aoc-cpp-coaching/SKILL.md) | C++23/26 representation, parsing, lifetimes, ownership, containers, and idioms. |
+| [Python coaching](.github/skills/aoc-python-coaching/SKILL.md) | Python 3 data modeling, standard-library tools, types, iteration, and caching. |
+| [Rust coaching](.github/skills/aoc-rust-coaching/SKILL.md) | Rust 2024 ownership, borrowing, parsing, iterators, and error handling. |
+| [Performance lab](.github/skills/aoc-performance-lab/SKILL.md) | Shared hypothesis-driven optimization and benchmark design. |
+| [C++ instrumentation](.github/skills/aoc-cpp-instrumentation/SKILL.md) | Tests, compiler diagnostics, sanitizers, clang-tidy, timing, and profiling. |
+| [Python instrumentation](.github/skills/aoc-python-instrumentation/SKILL.md) | Tests, interpreter checks, cProfile, timeit, and allocation measurements. |
+| [Rust instrumentation](.github/skills/aoc-rust-instrumentation/SKILL.md) | Cargo tests, Clippy, formatting, build profiles, timing, and profiling. |
+| [Quality review](.github/skills/aoc-quality-review/SKILL.md) | Invited post-solve review of correctness, complexity, design, and idiomatic code. |
 
-## The roster
+Skills are knowledge for the coach to use inline, not independent workers. Load
+the chosen language skill first; add algorithm, instrumentation, performance,
+or review skills only when the discussion calls for them.
 
-| Agent | Role | Tools |
-|---|---|---|
-| `aoc-coach` | Entry point: decompose the puzzle, mermaid plan, delegate to lane subagents, combine results + delegation ledger | read, search, edit (notes only), web, todo, `agent` — lanes whitelisted via `agents:` |
-| `aoc-algorithms` | Compare ≥2 approaches: time/space complexity, pros/cons, citations | read, search, web, todo — pure advisory, callable as subagent |
-| `aoc-cpp` | C++23/26 lane: ranges, sanitizers, clang-tidy, benchmarks | read, edit, search, execute, web, todo |
-| `aoc-python` | Python 3 lane (≥3.12 baseline): stdlib-first, pytest red-green, profiling | read, edit, search, execute, web, todo |
-| `aoc-rust` | Rust 2024 lane: ownership, iterators, clippy, cargo red-green | read, edit, search, execute, web, todo |
-| `aoc-review` | Post-solve review: correctness evidence, complexity audit, idiom findings | read, search, execute, web — **no edit**, manual-select only |
+## Quick start
 
-Supporting material: `.github/copilot-instructions.md` (the teaching contract — applies to every chat in the workspace), `references/` (algorithm playbook, mermaid templates, toolchain cheat sheet, model & token economics), and `templates/` + `scripts/new_day.sh` (day scaffolds).
+1. Open this repository (or your AoC workspace) in VS Code with Copilot Chat.
+2. In **Chat: Open Customizations**, check that **AoC Skills Coach** and the
+   nine skills are discovered. Start a fresh chat if you just installed them.
+3. Select **AoC Skills Coach** and tell it the puzzle day and part, language,
+   what you have tried, and how much explanation you want.
+4. Stay in that conversation as you reason, implement, test, and—if invited—
+   review the solution.
 
-## Subagent architecture (no handoffs)
+For example:
 
-Handoff buttons were removed: they exist only in the Local harness and don't delegate on every setup. Delegation now uses the **subagent mechanism**, which works on both harnesses — Local via the `runSubagent` tool, Copilot via its native `task` tool. The coach's `agents:` whitelist names the lanes (Local honors it; Copilot ignores it harmlessly). Subagent calls are stateless one-shot briefs — goal, context, allowed actions, expected result — and the coach ends every delegating response with a delegation ledger. See `references/models.md` for the model pinning, token economics, and the full pros/cons.
+> Day 5 part 1, Rust. Here is the statement and my parser. Please explain
+> things in detail, one step at a time. Coach me, but don't edit my files.
 
-## Day scaffolds
+The coach should clarify the problem and your current understanding, then load
+the relevant skill in the same conversation. It follows the sample-first
+red-green loop and waits for you to make the next implementation decision.
 
-From your puzzle repo root: `./scripts/new_day.sh <NN> <cpp|python|rust>` creates `dayNN/` from `templates/` — the sample test is wired **red first** (`SAMPLE_EXPECTED_*` sentinels that fail with a "fill the expected answer" message), `part1`/`part2` stubs fail loudly, the CLI times every run, and each lane gets its hygiene tooling (C++: sanitizers + clang-tidy target; Python: zero-dep test runner + pytest option; Rust: edition 2024 + release overflow-checks). Details in `templates/README.md`.
+## Use in another AoC repository
 
-`templates/cpp` builds with **CMake presets** (debug = sanitizers + `ctest --preset sample`, release = timed runs; CMake ≥ 3.25). CI (`.github/workflows/scaffold-e2e.yml`) keeps the templates honest: on every push/PR it scaffolds a scratch day per lane and proves the full contract — red with the sentinel guidance, then green after filling expected values + stubs.
+Copy these into the puzzle workspace:
 
-## Install (per puzzle repository)
+- [The coach agent](.github/agents/aoc-skills-coach.agent.md) to
+  `.github/agents/`.
+- The complete [skills directory](.github/skills/) to `.github/skills/`.
 
-1. Copy into your AoC solution repo (e.g. `my-aoc-2026/`):
-   - `.github/agents/` (all six files)
-   - `.github/copilot-instructions.md`
-   - `references/`
-2. Open the repo in VS Code with GitHub Copilot Chat (recent version required; agents were written against the custom-agent docs as of **2026-11-04**).
-3. In the Chat view, pick the agent from the **Agent** dropdown (type `@`/open the picker depending on your harness). Start with `aoc-coach`, paste the puzzle statement.
-4. **Models**: the six original agents pin `model: ['GPT-6 Luna', 'Claude Haiku 5.5']` (prioritized array, first available wins). Replace with the exact IDs from your model picker if yours differ.
-5. **Token visibility**: set `chat.subagents.showCreditUsage: true` — credit usage per subagent shows on the response pill and hover. Details, economics, and pros/cons: `references/models.md`.
+Those files are the complete runtime package; no other files from this
+repository are required. If the destination workspace has its own Copilot
+instructions, the coach follows whichever rule is stricter.
 
-Also usable user-level (available in every workspace): copy the `.agent.md` files to `~/.copilot/agents/`. Older `.chatmode.md` files are superseded by this format — rename them.
+The coach adapts to the workspace's build and test setup. This repository also
+includes optional [day scaffolds](templates/README.md) and a
+[scaffold script](scripts/new_day.sh); neither is required to use the workflow.
 
-Copilot CLI works too: the same `.agent.md` format is shared, and delegation via the `agent`/`task` tool works there as well; Local-only extras (`argument-hint`) are simply ignored elsewhere.
+## Architecture and evaluation
 
-## Usage patterns
+The [workflow guide](references/skill-workflow.md) explains the teaching
+contract, skill routing, sample-first loop, and contains a Mermaid architecture
+diagram. Reusable [evaluation scenarios](references/skill-workflow-evals.json)
+exercise coaching, edit-consent, measurement, and review boundaries.
 
-- New puzzle: `aoc-coach` + "Day 4, part 1, here's the statement: …" → decomposition + mermaid → the coach delegates diagnostics to your language lane as a subagent (or select the lane directly from the dropdown).
-- Stuck on approach: `aoc-algorithms` + "n ≈ 10⁶ lines, part 2 will multiply states" → comparison with complexities.
-- Language fight: `aoc-cpp` + "my ranges pipeline segfaults with sanitizers on" → sanitizer-first diagnosis.
-- Solved it: `aoc-review` (pick manually — it deliberately can't be auto-invoked) → comprehension gate, complexity audit, ≤5 idiom findings.
+Scenario simulations and link checks are useful smoke tests, not proof of
+automatic skill selection, permission enforcement, or improved learning
+outcomes. Validate discovery and behavior in the Copilot client you plan to
+use.
 
-## The no-spoiler contract
+## Privacy
 
-`.github/copilot-instructions.md` defines a 9-rung escalation ladder (restate → concept → diagram → algorithm options → representation → failing test → hint → toy example → outline; full code only on explicit request). Every agent is bound by it, so colleagues can share one setup without fear of answer-dumping.
-
-## House rules
-
-- Personalized AoC inputs are never committed (`.gitignore` covers `input*` patterns). Samples from the public statement are fine.
-- Version claims (compilers, Python/Rust point releases) are re-verified by the agents via `web` tools at usage time; anything unverified is labeled an estimate.
-- Written against the docs on 2026-11-04: VS Code *Custom agents* + *Custom agent file reference*, GitHub *Custom agents configuration* (`docs.github.com/en/copilot/reference/custom-agents-configuration`). If Copilot changes the format, re-check those three pages first.
+Advent of Code inputs are personalized. Keep real inputs, answers, and any
+reports containing them local. Do not upload or commit them. Public puzzle
+statement samples may be used in tests.
