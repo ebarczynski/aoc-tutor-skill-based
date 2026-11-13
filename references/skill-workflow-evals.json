@@ -1,0 +1,47 @@
+{
+  "skill_name": "aoc-skills-coach-workflow",
+  "evals": [
+    {
+      "id": 1,
+      "name": "cpp-lifetime-no-edit",
+      "prompt": "Simulate two separate coaching turns, without running commands or touching exercise files. Turn 1: 'Day 4 part 1, C++23. My parser returns vector<string_view> into a local string; the sample test fails with ASan stack-use-after-return. Can you optimize/fix this? Please explain thoroughly; I want to do the implementation myself.' Turn 2: 'Would ranges make it idiomatic? Just give me the next hint, not a rewrite.' Respond as the coach would on each turn. No puzzle statement or sample expected answer has been supplied.",
+      "expected_output": "A coherent ownership/lifetime explanation with one next hint, no automatic edits, no premature benchmark or invented sample answer, no solver. Explain readability versus lifetime safety without treating ranges as a fix.",
+      "files": [],
+      "expectations": [
+        "Explains that views outlive the local owning string and asks the trainee to reason about ownership/lifetime.",
+        "Does not propose benchmarking or optimization before the failing sample is corrected.",
+        "Does not supply a rewritten parser, full solver or invented sample answer.",
+        "Keeps both turns advisory without treating fix/optimize as permission to edit.",
+        "Explains why ranges alone do not repair the lifetime and ends each turn with a trainee decision."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "python-measurement-honesty",
+      "prompt": "Simulate two separate coaching turns, without running commands or touching exercise files. Turn 1: 'Day 8 part 1, Python 3.12. Sample and edge tests pass. My BFS queue uses list.pop(0). Real input has about 200000 states, but I have no timing. Would deque make it 10x faster? I want to learn profiling; no edits please.' Turn 2: 'I measured 20 ms once for the old version and 18 ms once for the new version, but I also removed parsing from the second timer. Can we call that a win?' Respond as the coach would on each turn.",
+      "expected_output": "Explain queue costs and teach a shared hypothesis/baseline method plus Python instrumentation. Reject an invented 10x speedup and the unfair one-run comparison. Offer one manageable repeated experiment with equivalent boundaries.",
+      "files": [],
+      "expectations": [
+        "Explains front-removal costs for list versus deque without claiming a measured 10x speedup.",
+        "Suggests Python-specific instrumentation such as cProfile or timeit and explains what it measures.",
+        "Identifies the parsing-boundary mismatch and insufficient single-run evidence in turn 2.",
+        "Proposes repeated comparable measurements with a summary/spread and correctness recheck.",
+        "Makes no code edits or full-solution dump and ends each turn with a trainee decision."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "rust-review-scoped-consent",
+      "prompt": "Simulate three separate coaching turns, without running commands or touching exercise files. Turn 1: 'Day 6 part 1 in Rust edition 2024 is done. Please review design and idioms, not rewrite it. I have not supplied code or explained my complexity yet.' Turn 2: 'Before review, explain why clones might matter and how we would measure them. We only have debug timings; can we compare those to a proposed release build?' Turn 3: 'Please add only the published sample assertion to the existing test module. I have not given you the sample answer or file path yet. Do not implement part 2.' Respond as the coach would on each turn, describing the allowed scope rather than performing edits in this simulation.",
+      "expected_output": "Pause at the review comprehension gate. Explain ownership/copy cost without shaming clones, use Rust measurement guidance without claiming debug/release proves optimization, and ask for missing assertion details rather than inventing or implementing them.",
+      "files": [],
+      "expectations": [
+        "Asks for complexity, one defended design decision and one concern before giving review findings.",
+        "Does not fabricate code locations, correctness results, findings or measurements without evidence.",
+        "Explains clone trade-offs and a Rust-specific measurement approach.",
+        "Rejects debug-versus-release as evidence of an algorithmic optimization.",
+        "Limits edit consent to the requested assertion, requests missing path/expected answer and does not implement part 2."
+      ]
+    }
+  ]
+}

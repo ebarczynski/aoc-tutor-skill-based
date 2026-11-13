@@ -4,6 +4,14 @@ A set of GitHub Copilot **custom agents** (`.agent.md`) that coach a team throug
 
 Agents follow the red-green workflow anchored on AoC's own worked examples (sample input + expected answer = the first failing test), and reference authoritative docs (cppreference, Core Guidelines, docs.python.org, PEPs, Rust Book/std/Edition Guide) instead of reciting from memory.
 
+## Experiment: one agent + skills
+
+Prefer one continuous conversation over subagent delegation? Select **AoC Skills Coach**: a separate experimental workflow with **one agent and nine inline skills** for algorithm design, three language lanes, shared performance experiments, three language-specific instrumentation lanes, and invited quality review.
+
+The trainee still implements the puzzle. The coach explains causes and trade-offs in more depth, offers one next step, and **edits code/tests/scaffolds only when explicitly asked**. Skills load into the same conversation; there are no handoffs, subagent calls or forked contexts. The original agent files remain unchanged. Skills are discoverable workspace-wide; use an original-only copy for an isolated baseline comparison.
+
+Start with the [setup, Mermaid architecture and walkthrough](references/skill-workflow.md). Reusable [evaluation scenarios](references/skill-workflow-evals.json) cover no-edit consent, measurement honesty and review boundaries. The experimental agent uses your selected model rather than pinning one.
+
 ## The roster
 
 | Agent | Role | Tools |
@@ -35,7 +43,7 @@ From your puzzle repo root: `./scripts/new_day.sh <NN> <cpp|python|rust>` create
    - `references/`
 2. Open the repo in VS Code with GitHub Copilot Chat (recent version required; agents were written against the custom-agent docs as of **2026-11-04**).
 3. In the Chat view, pick the agent from the **Agent** dropdown (type `@`/open the picker depending on your harness). Start with `aoc-coach`, paste the puzzle statement.
-4. **Models**: every agent pins `model: ['GPT-6 Luna', 'Claude Haiku 5.5']` (prioritized array, first available wins). Replace with the exact IDs from your model picker if yours differ.
+4. **Models**: the six original agents pin `model: ['GPT-6 Luna', 'Claude Haiku 5.5']` (prioritized array, first available wins). Replace with the exact IDs from your model picker if yours differ.
 5. **Token visibility**: set `chat.subagents.showCreditUsage: true` — credit usage per subagent shows on the response pill and hover. Details, economics, and pros/cons: `references/models.md`.
 
 Also usable user-level (available in every workspace): copy the `.agent.md` files to `~/.copilot/agents/`. Older `.chatmode.md` files are superseded by this format — rename them.
