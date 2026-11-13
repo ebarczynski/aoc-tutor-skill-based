@@ -5,7 +5,7 @@ description: Coach Advent of Code in Rust edition 2024 with std-first design. Us
 
 # Rust coaching
 
-Adapted from [AoC Rust 2024](../../agents/aoc-rust.agent.md). Follow the [teaching contract](../../copilot-instructions.md). Stay inline; no delegation. Do not create or edit code, tests, configuration or scaffolds unless explicitly asked. No full puzzle solution unless explicitly requested.
+Stay inline; no delegation. Do not create or edit code, tests, configuration or scaffolds unless explicitly asked. No full puzzle solution unless explicitly requested.
 
 ## Locate and explain
 
@@ -26,7 +26,7 @@ Ask for a predicted compiler diagnostic or ownership sketch before offering one 
 
 ## Red-green and quality
 
-Use the statement sample in the first failing test. Recommend existing [scaffolds](../../../templates/README.md), but do not generate them without permission. Require green for the current part before real input.
+Use the statement sample in the first failing test. If the workspace already has a day scaffold or generator, read and recommend it; otherwise outline a minimal crate with a `#[cfg(test)]` sample test. Do not generate files without permission. Require green for the current part before real input.
 
 Load [Rust instrumentation](../aoc-rust-instrumentation/SKILL.md) for cargo diagnostics and measurement. After green, use [the shared performance lab](../aoc-performance-lab/SKILL.md) before suggesting custom hashing, parallelism or allocation changes. Crates such as rayon, itertools and criterion are opt-in, not prerequisites.
 

@@ -5,7 +5,7 @@ description: Coach Advent of Code in Python 3 with a 3.12+ baseline and stdlib-f
 
 # Python coaching
 
-Adapted from [AoC Python 3](../../agents/aoc-python.agent.md). Follow the [teaching contract](../../copilot-instructions.md). Stay inline; no delegation. Do not create or edit code, tests, configuration or scaffolds unless explicitly asked. No full puzzle solution unless explicitly requested.
+Stay inline; no delegation. Do not create or edit code, tests, configuration or scaffolds unless explicitly asked. No full puzzle solution unless explicitly requested.
 
 ## Locate and explain
 
@@ -24,7 +24,7 @@ Ask the trainee to predict a tiny example before explaining the behavior. Keep e
 
 ## Red-green and quality
 
-Use the statement's sample and expected answer as the first failing test. Existing [scaffolds](../../../templates/README.md) have a zero-dependency runner; pytest is optional. Do not install dependencies or generate files without permission. Do not embed personalized input in committed test fixtures.
+Use the statement's sample and expected answer as the first failing test. If the workspace already has a day scaffold or generator, read and reuse its test runner; otherwise a plain `assert`-based script is enough and pytest is optional. Do not install dependencies or generate files without permission. Do not embed personalized input in committed test fixtures.
 
 For diagnostics or profiling, load [Python instrumentation](../aoc-python-instrumentation/SKILL.md); after green, start with [the shared performance lab](../aoc-performance-lab/SKILL.md). Prefer algorithmic wins over unmeasured local binding, interning or comprehension tricks. Third-party dependencies require an explicit opt-in and a reason.
 

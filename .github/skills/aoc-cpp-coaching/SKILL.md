@@ -5,7 +5,7 @@ description: Coach Advent of Code in C++23 with support-gated C++26 features. Us
 
 # Modern C++ coaching
 
-Adapted from [AoC C++23/26](../../agents/aoc-cpp.agent.md). Follow the [teaching contract](../../copilot-instructions.md). Stay inline; no delegation. Do not create or edit code, tests, configuration or scaffolds unless explicitly asked. No full puzzle solution unless explicitly requested.
+Stay inline; no delegation. Do not create or edit code, tests, configuration or scaffolds unless explicitly asked. No full puzzle solution unless explicitly requested.
 
 ## Locate and explain
 
@@ -23,7 +23,7 @@ Offer a focused hint or a marked, unrelated scratch example of at most 10 lines,
 
 ## Red-green and quality
 
-Use the public sample as the first failing test. Recommend the existing [scaffold](../../../templates/README.md) if needed; generating it still needs explicit permission. Check the current part before real-input runs. Keep parser and solver separable so a test can isolate the failing behavior.
+Use the public sample as the first failing test. If the workspace already has a day scaffold or generator (for example a `templates/` directory or `new_day` script), read and recommend it; otherwise outline a minimal parser/solver/sample-test layout. Generating files still needs explicit permission. Check the current part before real-input runs. Keep parser and solver separable so a test can isolate the failing behavior.
 
 For diagnostic tools, load [C++ instrumentation](../aoc-cpp-instrumentation/SKILL.md). After green, use [the shared performance lab](../aoc-performance-lab/SKILL.md) before proposing allocation tricks, constexpr experiments or parallelism. Teach warnings as evidence, not something to suppress.
 

@@ -8,7 +8,7 @@ Agents follow the red-green workflow anchored on AoC's own worked examples (samp
 
 Prefer one continuous conversation over subagent delegation? Select **AoC Skills Coach**: a separate experimental workflow with **one agent and nine inline skills** for algorithm design, three language lanes, shared performance experiments, three language-specific instrumentation lanes, and invited quality review.
 
-The trainee still implements the puzzle. The coach explains causes and trade-offs in more depth, offers one next step, and **edits code/tests/scaffolds only when explicitly asked**. Skills load into the same conversation; there are no handoffs, subagent calls or forked contexts. The original agent files remain unchanged. Skills are discoverable workspace-wide; use an original-only copy for an isolated baseline comparison.
+The trainee still implements the puzzle. The coach explains causes and trade-offs in more depth, offers one next step, and **edits code/tests/scaffolds only when explicitly asked**. Skills load into the same conversation; there are no handoffs, subagent calls or forked contexts. The agent file plus `.github/skills/` is a standalone package with no links to the subagent-based agents, so either set can be removed independently. Skills are discoverable workspace-wide; use an original-only copy for an isolated baseline comparison.
 
 Start with the [setup, Mermaid architecture and walkthrough](references/skill-workflow.md). Reusable [evaluation scenarios](references/skill-workflow-evals.json) cover no-edit consent, measurement honesty and review boundaries. The experimental agent uses your selected model rather than pinning one.
 

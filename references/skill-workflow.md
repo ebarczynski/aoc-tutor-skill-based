@@ -1,6 +1,6 @@
 # Experiment: one coach, inline skills
 
-Select **AoC Skills Coach** and stay in that conversation from understanding the puzzle to reviewing your implementation. The coach loads relevant knowledge instead of dispatching subagents. The original **AoC Coach** and all six original agents remain unchanged.
+Select **AoC Skills Coach** and stay in that conversation from understanding the puzzle to reviewing your implementation. The coach loads relevant knowledge instead of dispatching subagents. It is a standalone package (one agent file + the skills directory) and works whether or not the subagent-based **AoC Coach** agents are present.
 
 The experiment optimizes for learning and a smoother conversation, not for fewer words at all costs. Expect explanations of causes, trade-offs and applications outside AoC, with one manageable next decision. More detail does not mean more solution code.
 
@@ -8,12 +8,11 @@ The experiment optimizes for learning and a smoother conversation, not for fewer
 
 In this repository, start a fresh Copilot chat and select **AoC Skills Coach**. For another puzzle repository, copy:
 
-- [The experimental agent](../.github/agents/aoc-skills-coach.agent.md) into `.github/agents/`.
-- The complete [skills directory](../.github/skills/) into `.github/skills/`.
-- [Repository instructions](../.github/copilot-instructions.md) and this [references directory](./).
-- Optionally, [templates](../templates/) and [the scaffold script](../scripts/new_day.sh).
+- [The coach agent](../.github/agents/aoc-skills-coach.agent.md) into `.github/agents/`.
+- The complete [skills directory](../.github/skills/) into `.github/skills/` (each skill folder carries its own bundled references).
+- Optionally, [templates](../templates/) and [the scaffold script](../scripts/new_day.sh). Skills reuse a day scaffold when one exists and otherwise adapt to the workspace's build files.
 
-The original agents are not runtime dependencies of this workflow. Skills link to them for provenance, not to invoke them. Copy them too only if you want to compare the original workflow or follow those provenance links.
+That agent file plus the skills directory is the complete workflow package. It has no links to or runtime dependency on the subagent-based agents, `.github/copilot-instructions.md` or this `references/` directory. If the target repository has its own Copilot instructions, the coach follows whichever rule is stricter.
 
 Use **Chat: Open Customizations** to check that the agent and nine skills are discovered. Start a new session after installing if the current session does not see them. Skill names should also appear when typing `/`; discovery alone does not prove automatic selection.
 
@@ -70,7 +69,7 @@ flowchart TB
 
 ### Coaching contract
 
-The [repository ladder](../.github/copilot-instructions.md) still applies: understand -> model -> compare -> represent -> test -> hint -> tiny toy example -> outline; full solution only on explicit request. Stop at the rung that lets the trainee continue. Do not accumulate snippets into an unsolicited complete solution.
+The coach carries the no-spoiler ladder itself: understand -> model -> compare -> represent -> test -> hint -> tiny toy example -> outline; full solution only on explicit request. Stop at the rung that lets the trainee continue. Do not accumulate snippets into an unsolicited complete solution.
 
 The experiment additionally requires:
 
@@ -81,21 +80,21 @@ The experiment additionally requires:
 - **One conversation:** no delegation tool, handoff, agent whitelist or `context: fork`. If skill loading is unavailable, the coach can read the relevant skill file and disclose that fallback.
 - **Private input stays local:** do not upload, publish or commit personalized inputs or reports containing them.
 
-### Skill map and provenance
+### Skill map
 
-| Skill | Loaded for | Drawn from |
-|---|---|---|
-| [aoc-algorithm-design](../.github/skills/aoc-algorithm-design/SKILL.md) | State design, two approaches, DP, graph search, cycles, intervals, arithmetic | AoC Algorithms + algorithm playbook |
-| [aoc-cpp-coaching](../.github/skills/aoc-cpp-coaching/SKILL.md) | C++23/26 parsing, ownership, ranges, containers and idioms | AoC C++23/26 |
-| [aoc-python-coaching](../.github/skills/aoc-python-coaching/SKILL.md) | Python stdlib, types, modeling, iteration and caching | AoC Python 3 |
-| [aoc-rust-coaching](../.github/skills/aoc-rust-coaching/SKILL.md) | Rust 2024 borrowing, enums, iterators and errors | AoC Rust 2024 |
-| [aoc-performance-lab](../.github/skills/aoc-performance-lab/SKILL.md) | Shared benchmark method and one optimization experiment | All three lanes + AoC Review |
-| [aoc-cpp-instrumentation](../.github/skills/aoc-cpp-instrumentation/SKILL.md) | CMake, sanitizers, clang-tidy, timing/profiling | C++ lane + scaffold |
-| [aoc-python-instrumentation](../.github/skills/aoc-python-instrumentation/SKILL.md) | Test runner, cProfile, timeit, allocation tracing | Python lane + scaffold |
-| [aoc-rust-instrumentation](../.github/skills/aoc-rust-instrumentation/SKILL.md) | Cargo, clippy, profiles, release timing | Rust lane + scaffold |
-| [aoc-quality-review](../.github/skills/aoc-quality-review/SKILL.md) | Invited post-solve review and learning retrospective | AoC Review |
+| Skill | Loaded for |
+|---|---|
+| [aoc-algorithm-design](../.github/skills/aoc-algorithm-design/SKILL.md) | State design, two approaches, DP, graph search, cycles, intervals, arithmetic (bundles its own algorithm playbook) |
+| [aoc-cpp-coaching](../.github/skills/aoc-cpp-coaching/SKILL.md) | C++23/26 parsing, ownership, ranges, containers and idioms |
+| [aoc-python-coaching](../.github/skills/aoc-python-coaching/SKILL.md) | Python stdlib, types, modeling, iteration and caching |
+| [aoc-rust-coaching](../.github/skills/aoc-rust-coaching/SKILL.md) | Rust 2024 borrowing, enums, iterators and errors |
+| [aoc-performance-lab](../.github/skills/aoc-performance-lab/SKILL.md) | Shared benchmark method and one optimization experiment |
+| [aoc-cpp-instrumentation](../.github/skills/aoc-cpp-instrumentation/SKILL.md) | CMake, sanitizers, clang-tidy, timing/profiling |
+| [aoc-python-instrumentation](../.github/skills/aoc-python-instrumentation/SKILL.md) | Test runner, cProfile, timeit, allocation tracing |
+| [aoc-rust-instrumentation](../.github/skills/aoc-rust-instrumentation/SKILL.md) | Cargo, clippy, profiles, release timing |
+| [aoc-quality-review](../.github/skills/aoc-quality-review/SKILL.md) | Invited post-solve review and learning retrospective |
 
-This is an adaptation, not a verbatim copy: subagent briefs and ledgers are removed, language-independent measurement is extracted, edit consent is stricter, and hardcoded "current release"/runtime-cutoff claims are replaced by checks at use time.
+The content started from the subagent-based lanes but is maintained independently here: delegation briefs and ledgers are removed, language-independent measurement is extracted, edit consent is stricter, and hardcoded "current release"/runtime-cutoff claims are replaced by checks at use time. No skill links back to an agent file.
 
 ## What a session feels like
 
@@ -113,7 +112,7 @@ For manual skill selection, stay on **AoC Skills Coach** and use, for example, `
 
 ## Validate and compare the experiment
 
-Use the reusable [coaching scenarios](./skill-workflow-evals.json). They cover C++ lifetime diagnostics and no-edit consent, Python measurement honesty, and Rust review/scoped-edit boundaries.
+Use the reusable [coaching scenarios](./skill-workflow-evals.json). They cover C++ lifetime diagnostics and no-edit consent, Python measurement honesty, and Rust review/scoped-edit boundaries. They test the skills workflow on its own; the baseline comparison below is optional and only possible while the subagent-based agents still exist.
 
 For an honest UI comparison, run each scenario in a fresh chat with the same model, tools and repository state:
 

@@ -5,9 +5,7 @@ description: Teach evidence-based optimization and shared benchmark design for A
 
 # One measured improvement
 
-Extracted from the measurement guidance in [C++](../../agents/aoc-cpp.agent.md), [Python](../../agents/aoc-python.agent.md), [Rust](../../agents/aoc-rust.agent.md) and [review](../../agents/aoc-review.agent.md).
-
-Follow the [teaching contract](../../copilot-instructions.md). Stay inline; do not delegate or edit files without an explicit request. "Make it faster" requests a coached experiment, not an automatic rewrite. No full puzzle solution unless explicitly requested.
+Stay inline; do not delegate or edit files without an explicit request. "Make it faster" requests a coached experiment, not an automatic rewrite. No full puzzle solution unless explicitly requested.
 
 ## Shared experimental method
 
