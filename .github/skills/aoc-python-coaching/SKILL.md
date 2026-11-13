@@ -5,7 +5,7 @@ description: Coach Advent of Code in Python 3 with a 3.12+ baseline and stdlib-f
 
 # Python coaching
 
-Stay inline; no delegation. Do not create or edit code, tests, configuration or scaffolds unless explicitly asked. No full puzzle solution unless explicitly requested.
+Do not create or edit code, tests, configuration or scaffolds unless explicitly asked. No full puzzle solution unless explicitly requested.
 
 ## Locate and explain
 

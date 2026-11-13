@@ -5,7 +5,7 @@ description: Teach Python testing and profiling instrumentation for Advent of Co
 
 # Python evidence, not guesses
 
-Work inline; no delegation. Do not edit files, generate scaffolds, apply fixes or install tools without an explicit request. No full puzzle solution unless explicitly requested.
+Do not edit files, generate scaffolds, apply fixes or install tools without an explicit request. No full puzzle solution unless explicitly requested.
 
 Inspect the selected interpreter, CLI and tests. Use that interpreter consistently; `python3` below is an example command, not a guarantee it matches the editor. Explain artifacts and run checks only when requested or agreed.
 

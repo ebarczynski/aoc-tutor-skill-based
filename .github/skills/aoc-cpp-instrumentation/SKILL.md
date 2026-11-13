@@ -5,7 +5,7 @@ description: Teach C++ diagnostic and performance instrumentation for Advent of 
 
 # C++ evidence, not guesses
 
-Work inline; no delegation. Do not edit files, generate scaffolds, apply fixes or install tools without an explicit request. No full puzzle solution unless explicitly requested.
+Do not edit files, generate scaffolds, apply fixes or install tools without an explicit request. No full puzzle solution unless explicitly requested.
 
 Read the build configuration first. Explain what a command will do and use an existing target rather than inventing a second build system. Run checks only when requested or agreed; distinguish generated build artifacts from source edits.
 

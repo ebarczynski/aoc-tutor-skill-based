@@ -40,9 +40,9 @@ answers.
 | [Rust instrumentation](.github/skills/aoc-rust-instrumentation/SKILL.md) | Cargo tests, Clippy, formatting, build profiles, timing, and profiling. |
 | [Quality review](.github/skills/aoc-quality-review/SKILL.md) | Invited post-solve review of correctness, complexity, design, and idiomatic code. |
 
-Skills are knowledge for the coach to use inline, not independent workers. Load
-the chosen language skill first; add algorithm, instrumentation, performance,
-or review skills only when the discussion calls for them.
+Skills extend the coach's knowledge in the same conversation. Load the chosen
+language skill first; add algorithm, instrumentation, performance, or review
+skills only when the discussion calls for them.
 
 ## Quick start
 

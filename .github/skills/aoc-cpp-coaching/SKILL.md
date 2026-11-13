@@ -5,7 +5,7 @@ description: Coach Advent of Code in C++23 with support-gated C++26 features. Us
 
 # Modern C++ coaching
 
-Stay inline; no delegation. Do not create or edit code, tests, configuration or scaffolds unless explicitly asked. No full puzzle solution unless explicitly requested.
+Do not create or edit code, tests, configuration or scaffolds unless explicitly asked. No full puzzle solution unless explicitly requested.
 
 ## Locate and explain
 

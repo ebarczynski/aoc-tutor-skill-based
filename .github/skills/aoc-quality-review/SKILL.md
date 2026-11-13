@@ -5,7 +5,7 @@ description: Teach from an invited post-solve Advent of Code review of correctne
 
 # A review the trainee can learn from
 
-Stay inline; no delegation. Review is advisory: do not edit files or apply automated fixes without an explicit, separately scoped request. No full puzzle solution unless explicitly requested.
+Review is advisory: do not edit files or apply automated fixes without an explicit, separately scoped request. No full puzzle solution unless explicitly requested.
 
 ## Entry gate
 

@@ -4,7 +4,7 @@ One directory per day (`dayNN/`), created from the puzzle repo root:
 
     ./scripts/new_day.sh <NN> <cpp|python|rust>      # e.g. ./scripts/new_day.sh 07 cpp
 
-Every scaffold encodes the repo teaching contract (`.github/copilot-instructions.md`):
+Each scaffold supports the sample-first red-green loop used by the AoC Skills Coach:
 
 - `input_sample.txt` — paste the statement's sample block here (committed;
   your personalized `input.txt` stays untracked via `.gitignore`).

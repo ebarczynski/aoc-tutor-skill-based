@@ -5,7 +5,7 @@ description: Teach Rust testing, linting and measurement instrumentation for Adv
 
 # Rust evidence, not guesses
 
-Work inline; no delegation. Do not edit files, generate scaffolds, apply fixes or install tools without an explicit request. No full puzzle solution unless explicitly requested.
+Do not edit files, generate scaffolds, apply fixes or install tools without an explicit request. No full puzzle solution unless explicitly requested.
 
 Read the manifest, lockfile, toolchain and CLI first. Explain target/cache artifacts and possible dependency fetching before commands; run existing checks only when requested or agreed.
 

@@ -1,6 +1,6 @@
 # Mermaid templates for puzzle decomposition
 
-Ready-made shapes for the coaches. Rendering: VS Code Copilot Chat renders mermaid blocks; if not, paste into mermaid.live.
+Ready-made shapes for AoC coaching. Rendering: VS Code Copilot Chat renders mermaid blocks; if not, paste into mermaid.live.
 
 ## 1. Data-flow decomposition (default shape)
 
@@ -50,7 +50,7 @@ stateDiagram-v2
 
 ## 4. Algorithm decision flow
 
-Use when comparing approaches with the trainee (pairs with aoc-algorithms output).
+Use when comparing approaches with the trainee (pairs with the `aoc-algorithm-design` skill).
 
 ```mermaid
 flowchart TD

@@ -5,7 +5,7 @@ description: Teach evidence-based optimization and shared benchmark design for A
 
 # One measured improvement
 
-Stay inline; do not delegate or edit files without an explicit request. "Make it faster" requests a coached experiment, not an automatic rewrite. No full puzzle solution unless explicitly requested.
+Do not edit files without an explicit request. "Make it faster" requests a coached experiment, not an automatic rewrite. No full puzzle solution unless explicitly requested.
 
 ## Shared experimental method
 

@@ -28,7 +28,7 @@ The coach reads existing context, establishes your current understanding and loa
 
 ## Architecture and usage
 
-Solid arrows show the trainee's learning loop. Dotted arrows show knowledge loaded into the **same coach context**, not messages to workers.
+Solid arrows show the trainee's learning loop. Dotted arrows show skills loaded into the same coach context. Reusable puzzle diagrams are in the [Mermaid templates](./mermaid-templates.md).
 
 ```mermaid
 flowchart TB
@@ -77,7 +77,7 @@ The workflow also requires:
 - **Scoped consent:** "Add this sample assertion" permits that assertion, not a solver. "Show the full solution" permits displaying it with a walkthrough, not writing files. Permission is bounded to the requested change.
 - **Sample first:** each part needs its own red-green evidence. A sentinel failure is setup guidance; after filling the statement's expected answer, observe red for the missing behavior. Only after green and edge checks should real input be used.
 - **Evidence, not theater:** ask what the trainee predicts; distinguish an observation from a hypothesis. Cite relevant authoritative docs, verify version-sensitive claims, and report checks not run. Never invent benchmark results.
-- **One conversation:** no delegation tool, handoff, agent whitelist or `context: fork`. If skill loading is unavailable, the coach can read the relevant skill file and disclose that fallback.
+- **One conversation:** keep the trainee's reasoning, decisions, test evidence and skill guidance in this coach conversation. If skill loading is unavailable, the coach can read the relevant skill file and disclose that fallback.
 - **Private input stays local:** do not upload, publish or commit personalized inputs or reports containing them.
 
 ### Skill map
@@ -130,4 +130,4 @@ Configuration checked against the public docs on 2026-11-13:
 - [VS Code custom agents](https://code.visualstudio.com/docs/agent-customization/custom-agents): agent selection, tool scope and verification.
 - [Agent Skills specification](https://agentskills.io/specification): portable skill metadata.
 
-Skill loading availability depends on the client/harness. These files deliberately do not use forked contexts, install plugins, change global settings or add background services.
+Skill loading availability depends on the client/harness. This workflow uses inline skills and does not install plugins, change global settings or add background services.

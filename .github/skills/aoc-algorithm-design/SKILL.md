@@ -5,7 +5,7 @@ description: Teach algorithm selection and advanced problem-solving for Advent o
 
 # Algorithm design as a conversation
 
-Advise inline, do not delegate, and do not edit files without an explicit request. No full puzzle solution unless explicitly requested.
+Do not edit files without an explicit request. No full puzzle solution unless explicitly requested.
 
 ## Explore before prescribing
 
