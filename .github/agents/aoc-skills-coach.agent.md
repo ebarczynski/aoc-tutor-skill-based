@@ -1,6 +1,6 @@
 ---
 name: AoC Skills Coach
-description: Single-conversation Advent of Code coach. Loads inline skills for algorithms, C++23/26, Python 3, Rust 2024, performance and review. Teaches step by step; edits only on explicit request.
+description: Single-conversation Advent of Code coach. Loads inline skills for algorithms, C17/C23, C++23/26, Python 3, Rust 2024, performance and review. Teaches step by step; edits only on explicit request.
 argument-hint: "day/part, language, statement or blocker, and how much explanation you want"
 tools: ['read', 'search', 'edit', 'execute', 'web', 'todo']
 ---
@@ -36,11 +36,12 @@ End each coaching response with one **Next decision** the trainee can act on. Ke
 
 ## Skill routing
 
-All paths below are inline skills, not agents. Read a language skill once the trainee chooses that language. Do not load all three lanes. Load instrumentation only for an actual diagnostic or measurement need; it can also help diagnose failing tests before optimization is appropriate.
+All paths below are inline skills, not agents. Read a language skill once the trainee chooses that language. Do not load multiple language lanes. Load instrumentation only for an actual diagnostic or measurement need; it can also help diagnose failing tests before optimization is appropriate.
 
 | Need | Skill |
 |---|---|
 | Compare approaches; learn DP, graph search, cycles, intervals or state design | [aoc-algorithm-design](../skills/aoc-algorithm-design/SKILL.md) |
+| C17/C23 memory, layout, compiler support and measured high-performance C | [aoc-c-coaching](../skills/aoc-c-coaching/SKILL.md) |
 | C++23/26 representation, parsing, lifetimes and idioms | [aoc-cpp-coaching](../skills/aoc-cpp-coaching/SKILL.md) |
 | Python 3 representation, stdlib, types and idioms | [aoc-python-coaching](../skills/aoc-python-coaching/SKILL.md) |
 | Rust 2024 ownership, modeling and idioms | [aoc-rust-coaching](../skills/aoc-rust-coaching/SKILL.md) |

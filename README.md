@@ -5,9 +5,9 @@ agent and a set of reusable skills**. The coach stays with the trainee in one
 conversation and loads only the knowledge needed for the current question.
 All coaching stays in that conversation.
 
-The workflow supports **C++23/26**, **Python 3**, and **Rust 2024**. Its goal is
-to help engineers become better problem solvers—not to produce one-shot
-answers.
+The workflow supports **C17 with support-gated C23**, **C++23/26**,
+**Python 3**, and **Rust 2024**. Its goal is to help engineers become better
+problem solvers—not to produce one-shot answers.
 
 ## Learning principles
 
@@ -31,6 +31,7 @@ answers.
 |---|---|
 | [AoC Skills Coach](.github/agents/aoc-skills-coach.agent.md) | Guides the trainee through the puzzle, routes relevant skills, and keeps the conversation in one voice. |
 | [Algorithm design](.github/skills/aoc-algorithm-design/SKILL.md) | Models the problem and teaches algorithm choices such as graph search, dynamic programming, cycle detection, and interval methods. Includes a bundled algorithm playbook. |
+| [C coaching](.github/skills/aoc-c-coaching/SKILL.md) | Portable C17/C23 and measured performance: parsing, memory ownership, data layout, compiler behavior, and C-specific safety. |
 | [C++ coaching](.github/skills/aoc-cpp-coaching/SKILL.md) | C++23/26 representation, parsing, lifetimes, ownership, containers, and idioms. |
 | [Python coaching](.github/skills/aoc-python-coaching/SKILL.md) | Python 3 data modeling, standard-library tools, types, iteration, and caching. |
 | [Rust coaching](.github/skills/aoc-rust-coaching/SKILL.md) | Rust 2024 ownership, borrowing, parsing, iterators, and error handling. |
@@ -48,7 +49,7 @@ skills only when the discussion calls for them.
 
 1. Open this repository (or your AoC workspace) in VS Code with Copilot Chat.
 2. In **Chat: Open Customizations**, check that **AoC Skills Coach** and the
-   nine skills are discovered. Start a fresh chat if you just installed them.
+   ten skills are discovered. Start a fresh chat if you just installed them.
 3. Select **AoC Skills Coach** and tell it the puzzle day and part, language,
    what you have tried, and how much explanation you want.
 4. Stay in that conversation as you reason, implement, test, and—if invited—

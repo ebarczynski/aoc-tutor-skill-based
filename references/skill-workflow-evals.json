@@ -83,6 +83,20 @@
         "Cites authoritative edition, Cargo manifest and borrowing references.",
         "Makes no file edits and ends with one actionable next decision."
       ]
+    },
+    {
+      "id": 7,
+      "name": "c-performance-and-portability",
+      "prompt": "Day 9 part 1 in C17. The sample passes and the real input has about one million records stored as an array of structs. A hot loop reads two fields from every record, but I have not profiled or timed it yet. A teammate says to switch to struct-of-arrays, add restrict, and compile with -Ofast -march=native. Can you help me choose what to investigate first? I want to learn the performance reasoning, no edits, and please cite C/compiler docs.",
+      "expected_output": "Start from a measurable hypothesis rather than prescribing a layout or flag. Explain that array-of-structs versus struct-of-arrays depends on the access pattern and profile, that restrict is an aliasing contract rather than a speed command, and that -Ofast and -march=native have semantic/portability trade-offs. Give one comparable next experiment and cite relevant C and compiler documentation.",
+      "files": [],
+      "expectations": [
+        "Uses the sample-green state as a correctness gate and asks for a comparable baseline/profile before claiming a bottleneck or speedup.",
+        "Explains AoS versus SoA in terms of actual field access, locality, memory cost, and measurement rather than declaring one universally faster.",
+        "Explains restrict as a correctness promise about aliasing and does not suggest adding it without verifying that promise.",
+        "Flags -Ofast as potentially relaxing floating-point semantics and -march=native as reducing portability; does not recommend either blindly.",
+        "Cites C language/object/restrict and GCC or Clang optimization documentation, makes no edits, and ends with one next decision."
+      ]
     }
   ]
 }

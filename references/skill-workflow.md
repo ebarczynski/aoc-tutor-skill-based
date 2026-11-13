@@ -14,7 +14,7 @@ Start a fresh Copilot chat in this workspace and select **AoC Skills Coach**. To
 
 That agent file plus the skills directory is the complete runtime package. The other files in this repository are documentation or optional scaffolding. If the target workspace has its own Copilot instructions, the coach follows whichever rule is stricter.
 
-Use **Chat: Open Customizations** to check that the agent and nine skills are discovered. Start a new session after installing if the current session does not see them. Skill names should also appear when typing `/`; discovery alone does not prove automatic selection.
+Use **Chat: Open Customizations** to check that the agent and ten skills are discovered. Start a new session after installing if the current session does not see them. Skill names should also appear when typing `/`; discovery alone does not prove automatic selection.
 
 Project skills are discoverable workspace-wide, not private to a particular agent. Use **AoC Skills Coach** as the entry point for the intended learning flow. User-level or other workspace skills may also be discovered.
 
@@ -37,9 +37,9 @@ flowchart TB
     T --> C
     subgraph Knowledge["Inline skills: load only what the current question needs"]
         A["Algorithm design: compare approaches and learn advanced techniques"]
-        L["Chosen language: C++ OR Python OR Rust"]
+        L["Chosen language: C OR C++ OR Python OR Rust"]
         P["Shared performance lab: hypothesis and fair comparison"]
-        I["Matching instrumentation: C++ OR Python OR Rust"]
+        I["Language-specific diagnostics and measurement guidance"]
         Q["Invited post-solve quality review"]
     end
     C -.-> A
@@ -85,6 +85,7 @@ The workflow also requires:
 | Skill | Loaded for |
 |---|---|
 | [aoc-algorithm-design](../.github/skills/aoc-algorithm-design/SKILL.md) | State design, two approaches, DP, graph search, cycles, intervals, arithmetic (bundles its own algorithm playbook) |
+| [aoc-c-coaching](../.github/skills/aoc-c-coaching/SKILL.md) | Portable C17/C23, memory and data layout, compiler behavior, and evidence-based low-level optimization |
 | [aoc-cpp-coaching](../.github/skills/aoc-cpp-coaching/SKILL.md) | C++23/26 parsing, ownership, ranges, containers and idioms |
 | [aoc-python-coaching](../.github/skills/aoc-python-coaching/SKILL.md) | Python stdlib, types, modeling, iteration and caching |
 | [aoc-rust-coaching](../.github/skills/aoc-rust-coaching/SKILL.md) | Rust 2024 borrowing, enums, iterators and errors |
@@ -101,6 +102,7 @@ The workflow also requires:
 | "I don't understand the puzzle." | Restates the transformation, asks for a prediction, sketches a small model when useful | Choosing/confirming the model |
 | "Would DP help here?" | Explains repeated subproblems and compares two approaches at the appropriate rung | Defining the state and choosing the approach |
 | "The borrow checker is fighting me." | Loads Rust knowledge, traces ownership and offers one hint | Making the next implementation change |
+| "My C loop is slow; should I switch to SoA and `-Ofast`?" | Loads C guidance and the shared performance lab; asks for a baseline and explains semantic/portability trade-offs | Choosing one measured experiment |
 | "My sample passes; this seems slow." | Loads the performance lab plus matching instrumentation, agrees on a baseline | Predicting the bottleneck and implementing one experiment |
 | "Optimize this." | Clarifies the objective and measurement plan; does not rewrite files | Choosing and applying the change |
 | "Please add just this sample test." | Makes only that requested edit and explains it | Implementing the solver |
@@ -110,7 +112,7 @@ For manual skill selection, stay on **AoC Skills Coach** and use, for example, `
 
 ## Validate the workflow
 
-Use the reusable [coaching scenarios](./skill-workflow-evals.json). Alongside edit consent, measurement, and review boundaries, the scenarios now check C++ ownership/container guidance, Python parsing and collection tradeoffs, Rust edition/MSRV reasoning, and whether the coach cites the appropriate language documentation.
+Use the reusable [coaching scenarios](./skill-workflow-evals.json). Alongside edit consent, measurement, and review boundaries, the scenarios check C ownership/layout and optimization safety, C++ lifetimes and library support, Python parsing and collection tradeoffs, Rust edition/MSRV reasoning, and whether the coach cites relevant language documentation.
 
 For each scenario, use a fresh chat with the same model, tools and repository state:
 

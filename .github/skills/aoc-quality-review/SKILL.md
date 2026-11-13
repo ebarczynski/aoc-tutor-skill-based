@@ -21,7 +21,7 @@ Wait for their response rather than asking and answering for them. If already su
 
 ## Evidence before opinions
 
-Read the solution and tests. Load only the selected [C++](../aoc-cpp-coaching/SKILL.md), [Python](../aoc-python-coaching/SKILL.md) or [Rust](../aoc-rust-coaching/SKILL.md) skill for idiom guidance; use the matching instrumentation skill for agreed checks.
+Read the solution and tests. Load only the selected [C](../aoc-c-coaching/SKILL.md), [C++](../aoc-cpp-coaching/SKILL.md), [Python](../aoc-python-coaching/SKILL.md) or [Rust](../aoc-rust-coaching/SKILL.md) skill for idiom guidance; use the matching instrumentation skill for agreed checks.
 
 - Verify the current part's public sample against its published expected answer. Identify missing edge cases and invariants; do not fabricate known real-input answers.
 - If execution is agreed, report exact commands and observed output. Reproducing a trainee's real-input answer is reproducibility evidence, not independent proof of correctness; keep the input private.
