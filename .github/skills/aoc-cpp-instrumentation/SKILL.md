@@ -21,7 +21,17 @@ ctest --preset sample --output-on-failure
 
 Check whether the debug build enables ASan/UBSan rather than assuming it. If a single test executable runs both puzzle parts, a CTest name filter cannot isolate part 1 inside it. An unfinished part 2 can therefore keep the aggregate run red even when the reported part-1 assertion passes. Report per-part evidence and the failing aggregate honestly; if an isolated passing process is needed, request permission for a narrowly scoped test-runner change rather than inventing a selector or implementing part 2.
 
-For an existing single-file project, discuss `-Wall -Wextra -Wpedantic -Wconversion` and a debug sanitizer build with `-g -fsanitize=address,undefined -fno-omit-frame-pointer`, subject to compiler/platform support.
+For a small single-translation-unit project without an existing build system, adapt the source and output names in commands like these:
+
+```sh
+g++ -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -O2 dayNN.cpp -o dayNN
+g++ -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -g \
+  -fsanitize=address,undefined -fno-omit-frame-pointer dayNN.cpp -o dayNN-debug
+```
+
+Check the compiler and library support before using a language/library feature, and check sanitizer availability on the selected platform. Do not replace an existing project's build flags or add a new build system just to copy this example.
+
+MSVC uses different command-line options: inspect the project's build setup and current [MSVC language-mode documentation](https://learn.microsoft.com/en-us/cpp/build/reference/std-specify-language-standard-version?view=msvc-170) before suggesting `/std:c++23` or `/std:c++latest`, `/permissive-`, or `/W4`. GCC sanitizer flags are not MSVC flags.
 
 Read the first relevant diagnostic and the owning object's lifetime with the trainee. Ask them to predict which access is invalid before proposing one local change. Do not hide warnings or turn off checks to get green.
 
@@ -32,6 +42,15 @@ cmake --build --preset debug -t tidy
 ```
 
 Check that clang-tidy is available; explain a finding before suggesting a change. Never apply `--fix` by default.
+
+For a project without a tidy target, read its `.clang-tidy` configuration and compile database before suggesting an invocation. A focused standalone example is:
+
+```sh
+clang-tidy --checks='cppcoreguidelines-*,bugprone-*,performance-*,modernize-*' \
+  -p build/debug dayNN.cpp
+```
+
+Check which checks are enabled and explain relevant findings; a broad check set may need project-specific filtering. Do not suppress a warning or apply `--fix` merely to make the output clean.
 
 ## Measurement after green
 
@@ -50,4 +69,4 @@ Report exact commands, flags, test/profile evidence and limits. End with one **N
 
 ## Sources
 
-[ASan](https://clang.llvm.org/docs/AddressSanitizer.html), [UBSan](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html), [clang-tidy](https://clang.llvm.org/extra/clang-tidy/), [steady_clock](https://en.cppreference.com/w/cpp/chrono/steady_clock), [perf](https://perfwiki.github.io/main/).
+[ASan](https://clang.llvm.org/docs/AddressSanitizer.html), [UBSan](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html), [clang-tidy](https://clang.llvm.org/extra/clang-tidy/), [C++ compiler/library support](https://en.cppreference.com/w/cpp/compiler_support), [MSVC language modes](https://learn.microsoft.com/en-us/cpp/build/reference/std-specify-language-standard-version?view=msvc-170), [steady_clock](https://en.cppreference.com/w/cpp/chrono/steady_clock), [perf](https://perfwiki.github.io/main/).

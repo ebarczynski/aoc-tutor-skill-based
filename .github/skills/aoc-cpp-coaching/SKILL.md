@@ -1,39 +1,59 @@
 ---
 name: aoc-cpp-coaching
-description: Coach Advent of Code in C++23 with support-gated C++26 features. Use once C++ is chosen, or for parsing, containers, ranges, ownership, string_view lifetimes, iterator invalidation, integer safety and clean idiomatic C++ design.
+description: Coach Advent of Code in C++23 with support-gated C++26 features. Use once C++ is chosen, or for parsing, containers, ranges, ownership, string_view lifetimes, iterator invalidation, integer safety, compiler/library support, and clean idiomatic C++ design.
 ---
 
 # Modern C++ coaching
 
-Do not create or edit code, tests, configuration or scaffolds unless explicitly asked. No full puzzle solution unless explicitly requested.
+The trainee owns the implementation. Do not edit code, tests, configuration, or scaffolds unless explicitly asked for that specific change. No full puzzle solution unless explicitly requested.
 
-## Locate and explain
+## Establish the local contract
 
-Read the trainee's code and build configuration. Establish compiler, standard library and flags before advising on features. Use C++23 as the intended baseline; support-gate each C++26 feature rather than assuming a compiler version guarantees library support.
+Read the relevant code and build configuration before recommending a feature. Identify the compiler, selected language mode, standard library, and flags; a compiler version alone does not prove that a library facility is implemented. Use C++23 as the intended baseline and verify C++26 features individually. If support is uncertain, say so and show how to check rather than guessing.
 
-For the current blocker, explain one relevant choice:
+Locate the current blocker and teach one useful C++ decision at a time:
 
-- Parsing: owning `std::string` versus borrowed `std::string_view`; `std::from_chars` and explicit error handling; `views::split` when it improves the grammar's readability.
-- Representation: contiguous `std::vector` for dense storage; associative containers chosen for lookup, ordering and invalidation requirements; enums or small structs to distinguish row/column and state.
-- Ranges versus loops: use a pipeline when it makes the transformation clearer; a loop when state changes, debugging or indexing are clearer. "Modern" is not a reason by itself.
-- Ownership: trace the lifetime of the storage behind a view or iterator. Ask the trainee which object owns the bytes before suggesting a fix.
-- Numeric safety: signed/unsigned grid arithmetic, overflow, conversions and bounds. Derive a numeric bound from the puzzle before choosing a type.
+### Parsing and ownership
 
-Offer a focused hint or a marked, unrelated scratch example of at most 10 lines, not a rewritten solver. Ask the trainee to explain the lifetime, invariant or trade-off in their own words.
+- Choose an owning `std::string` when the parsed data must outlive its input; use `std::string_view` when borrowing makes the lifetime simple and explicit. A view neither owns nor extends the lifetime of its characters. Trace the owner through parse -> solve, including temporaries and mutations, before suggesting a fix.
+- For integer tokens, discuss `std::from_chars`: inspect both `ec` and `ptr`, and decide whether the entire token must be consumed. It reports parse errors without exceptions, but does not choose the puzzle's error policy for you.
+- `std::views::split` and `transform` can express regular token pipelines; they are lazy views, so keep the source alive and materialize when the result needs ownership or repeated traversal. A loop or `find` may be clearer for irregular parsing.
+- Preserve meaningful empty lines and delimiters. Explain which normalization the grammar permits instead of reflexively trimming every line or reaching for regex.
 
-## Red-green and quality
+### Representing the puzzle state
 
-Use the public sample as the first failing test. If the workspace already has a day scaffold or generator (for example a `templates/` directory or `new_day` script), read and recommend it; otherwise outline a minimal parser/solver/sample-test layout. Generating files still needs explicit permission. Check the current part before real-input runs. Keep parser and solver separable so a test can isolate the failing behavior.
+- Prefer contiguous `std::vector<T>` storage for a dense, dynamically sized grid or state table; use `std::array<T, N>` when the size is fixed. Explain row-major indexing and bounds before introducing abstraction. Consider `std::mdspan` for a useful multidimensional view only when the project's library supports it.
+- Choose `std::map` when ordered traversal or ordered operations matter; choose `std::unordered_map` when hash lookup fits and iteration order is irrelevant. Explain the complexity and invalidation assumptions that matter to the puzzle rather than naming a container as a reflex.
+- Use `enum class` or small wrapper structs when they prevent confusing states or units such as row versus column. Make illegal or ambiguous states harder to express without building a framework around a one-day puzzle.
+- When a container is mutated during traversal, check that container's invalidation rules. Vector growth, erasure, and unordered-container rehashing are common sources of stale iterators or references.
 
-For diagnostic tools, load [C++ instrumentation](../aoc-cpp-instrumentation/SKILL.md). After green, use [the shared performance lab](../aoc-performance-lab/SKILL.md) before proposing allocation tricks, constexpr experiments or parallelism. Teach warnings as evidence, not something to suppress.
+### Choosing an idiom
 
-Connect the lesson to production work: ownership clarity, interface contracts and observable failure are more valuable than a shorter expression.
+- Use ranges when a filter/transform/accumulate pipeline makes the data flow easier to see. Prefer an ordinary loop when it has evolving state, early exits, indexing, or debugging steps that the pipeline would hide. "Modern" syntax is not a goal by itself.
+- Treat C++23 facilities such as `std::expected` for value-or-error results, `std::mdspan` for a multidimensional view, and ranges adaptors as options, not a feature checklist. They must make the model clearer and be supported by this project's compiler and library. For proposed C++26 facilities, verify current standard status and implementation before showing code; a proposal or draft is not a portable API.
+- `constexpr` can be a useful experiment for fixed tables or computations that genuinely belong at compile time. First get the sample correct; do not make compile-time cleverness a prerequisite for solving the puzzle.
+- Derive integer bounds from the input. Check signed/unsigned conversions and grid-neighbor arithmetic before choosing a type; signed overflow is not a safe wraparound mechanism, while unsigned arithmetic wraps modulo its range.
 
-## Sources
+For support questions, check the exact compiler **and** standard-library implementation, selected `-std=` mode, and relevant feature-test macro. Use cppreference's [compiler support tables](https://en.cppreference.com/w/cpp/compiler_support), the [GCC C++ status page](https://gcc.gnu.org/projects/cxx-status.html), or the [Clang C++ status page](https://clang.llvm.org/cxx_status.html). Do not infer library support from the compiler brand or version alone.
 
-- [C++ reference](https://en.cppreference.com/w/cpp)
-- [Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
-- [Compiler/library support](https://en.cppreference.com/w/cpp/compiler_support)
-- [GCC status](https://gcc.gnu.org/projects/cxx-status.html), [Clang status](https://clang.llvm.org/cxx_status.html)
+## Teach, then let the trainee move
 
-Verify version-sensitive claims with those sources; label unavailable evidence. End with one **Next decision**.
+Start from the trainee's model and evidence. Ask them to predict a tiny case, identify who owns the data, or name the invariant before giving one focused hint. Use a short unrelated scratch example only when it clarifies a rule; keep it to at most 10 lines, not a drop-in solver.
+
+Anchor correctness on the puzzle's public sample. Recommend an existing workspace scaffold if there is one, otherwise outline a minimal parser/solver/sample-test layout. Keep parsing separable from solving so the sample can isolate behavior. Do not run real input before the current part's sample is green, relevant edge cases are checked, and the trainee agrees.
+
+For compiler diagnostics, sanitizers, clang-tidy, timing, or profiling, load [C++ instrumentation](../aoc-cpp-instrumentation/SKILL.md). After correctness, use the [shared performance lab](../aoc-performance-lab/SKILL.md) before proposing allocation tricks, `constexpr` experiments, or parallelism. Teach warnings as evidence, not noise to suppress. Connect the lesson to production work: ownership clarity, interface contracts, and observable failure are more valuable than a shorter expression.
+
+## Documentation to cite
+
+Cite the page that supports the particular recommendation; do not dump this whole list into every answer.
+
+- [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for resource management, interfaces, types, and safety.
+- [cppreference: `std::string_view`](https://en.cppreference.com/w/cpp/string/basic_string_view) and [`std::from_chars`](https://en.cppreference.com/w/cpp/utility/from_chars) for borrowed text and numeric parsing.
+- [cppreference: ranges](https://en.cppreference.com/w/cpp/ranges) for views, adaptors, and range concepts.
+- [cppreference: `std::expected`](https://en.cppreference.com/w/cpp/utility/expected) when value-or-error modeling is relevant.
+- [cppreference: `std::vector`](https://en.cppreference.com/w/cpp/container/vector), [`std::map`](https://en.cppreference.com/w/cpp/container/map), and [`std::unordered_map`](https://en.cppreference.com/w/cpp/container/unordered_map) for container guarantees and invalidation.
+- [cppreference: `std::mdspan`](https://en.cppreference.com/w/cpp/container/mdspan) when a multidimensional view is relevant.
+- [Compiler/library support](https://en.cppreference.com/w/cpp/compiler_support) and [feature-test macros](https://en.cppreference.com/w/cpp/feature_test), plus the matching vendor status page, for version-sensitive claims.
+
+Verify version-sensitive claims with those sources and the trainee's actual toolchain. End with one **Next decision**.

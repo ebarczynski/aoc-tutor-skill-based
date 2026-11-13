@@ -110,7 +110,7 @@ For manual skill selection, stay on **AoC Skills Coach** and use, for example, `
 
 ## Validate the workflow
 
-Use the reusable [coaching scenarios](./skill-workflow-evals.json). They cover C++ lifetime diagnostics and no-edit consent, Python measurement honesty, and Rust review/scoped-edit boundaries.
+Use the reusable [coaching scenarios](./skill-workflow-evals.json). Alongside edit consent, measurement, and review boundaries, the scenarios now check C++ ownership/container guidance, Python parsing and collection tradeoffs, Rust edition/MSRV reasoning, and whether the coach cites the appropriate language documentation.
 
 For each scenario, use a fresh chat with the same model, tools and repository state:
 

@@ -42,6 +42,47 @@
         "Rejects debug-versus-release as evidence of an algorithmic optimization.",
         "Limits edit consent to the requested assertion, requests missing path/expected answer and does not implement part 2."
       ]
+    },
+    {
+      "id": 4,
+      "name": "cpp-language-depth-and-docs",
+      "prompt": "Day 7, C++23. My input loader returns vector<string_view> tokens built from a loop-local std::string, and I want to replace the parser with ranges::views::split. I also need a 2D grid, and my clang 18 build doesn't know std::mdspan. Could you help me reason about storage choices and support? I have not shared build files; please coach me thoroughly, cite the relevant docs, and do not edit files or write a replacement parser.",
+      "expected_output": "Teach ownership and borrowed-view lifetimes, distinguish a range adaptor from owning storage, compare a dense vector grid with mdspan only as a supported view, and explain what build evidence is needed. Cite relevant C++ documentation without claiming support from the clang version alone. Give one next decision, not a rewrite.",
+      "files": [],
+      "expectations": [
+        "Explains that string_view does not own or extend the local string's lifetime and that storing the views does not preserve the source characters.",
+        "Explains that views::split is lazy/non-owning and does not repair the lifetime; does not blame ranges as the cause.",
+        "Compares row-major vector storage with mdspan as a view only if the selected standard library supports it.",
+        "Requests or identifies the exact compiler, standard library, language mode and support evidence before making a feature claim.",
+        "Cites relevant references such as cppreference string_view/ranges/mdspan and ends with a learner-owned next decision rather than parser code."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "python-language-depth-and-docs",
+      "prompt": "Day 8 part 1, Python 3.12. My BFS queue is a list and uses pop(0); my input has blank-line-separated groups, but split() seems to erase the structure. Please explain the tradeoffs and help me decide what to inspect next. No edits and no full solution; cite the Python docs.",
+      "expected_output": "Explain deque queue semantics and the cost of removing from the front of a list; reason from the input grammar about preserving blank lines; point to the matching official docs without promising a measured speedup.",
+      "files": [],
+      "expectations": [
+        "Recommends collections.deque for repeated FIFO removal and explains why, without inventing a speedup.",
+        "Distinguishes split, splitlines and whitespace trimming based on the grammar and meaningful empty records.",
+        "Cites the official collections and string documentation for the relevant behavior.",
+        "Keeps the trainee responsible for the next implementation and asks one useful decision question."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "rust-edition-and-borrowing-docs",
+      "prompt": "My Rust crate says edition = \"2024\" and rust-version = \"1.84\". A local variable named gen now errors, and I'm tempted to add .clone() to fix a separate borrow-checker error. Can you explain which issue is edition/toolchain related, how to investigate the borrow error, and cite the Rust docs? Please don't edit the crate.",
+      "expected_output": "Explain that Rust 2024 reserves gen and that the edition requires a supporting compiler; flag the declared MSRV for inspection against the edition's stabilization. Treat the clone question separately by tracing ownership and borrowing instead of prescribing a clone. Cite the Edition Guide, Cargo manifest, and borrowing docs.",
+      "files": [],
+      "expectations": [
+        "Identifies gen as a Rust 2024 reserved keyword and cites the edition guide.",
+        "Notes that Rust 2024 stabilized in Rust 1.85 and asks to check the actual compiler and the manifest's rust-version rather than assuming they match.",
+        "Separates the borrow-checker issue from the edition keyword error and does not prescribe clone without seeing the ownership context.",
+        "Cites authoritative edition, Cargo manifest and borrowing references.",
+        "Makes no file edits and ends with one actionable next decision."
+      ]
     }
   ]
 }
