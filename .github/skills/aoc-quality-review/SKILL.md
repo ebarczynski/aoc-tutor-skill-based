@@ -21,12 +21,13 @@ Wait for their response rather than asking and answering for them. If already su
 
 ## Evidence before opinions
 
-Read the solution and tests. Load only the selected [C](../aoc-c-coaching/SKILL.md), [C++](../aoc-cpp-coaching/SKILL.md), [Python](../aoc-python-coaching/SKILL.md) or [Rust](../aoc-rust-coaching/SKILL.md) skill for idiom guidance; use the matching instrumentation skill for agreed checks.
+Read the solution and tests. Load only the selected [C](../aoc-c-coaching/SKILL.md), [C++](../aoc-cpp-coaching/SKILL.md), [Python](../aoc-python-coaching/SKILL.md) or [Rust](../aoc-rust-coaching/SKILL.md) skill for idiom guidance; use the matching instrumentation skill (for C, [C instrumentation](../aoc-c-instrumentation/SKILL.md)) for agreed checks.
 
 - Verify the current part's public sample against its published expected answer. Identify missing edge cases and invariants; do not fabricate known real-input answers.
 - If execution is agreed, report exact commands and observed output. Reproducing a trainee's real-input answer is reproducibility evidence, not independent proof of correctness; keep the input private.
 - Separate checks passed, failed and not run. Syntax, formatting, lint and sanitizer checks complement tests; none alone proves correctness.
 - Re-derive complexity from the implementation, including state growth, cache size, copies and container operations. For speed claims use [the performance lab](../aoc-performance-lab/SKILL.md); do not infer speed from prettier code.
+- For C, trace allocation ownership and cleanup across success and error paths, bounds and size arithmetic, input conversion failures, and aliasing assumptions. Cite the applicable C rule and distinguish an observed defect from a hypothesis.
 
 ## Findings that teach
 
