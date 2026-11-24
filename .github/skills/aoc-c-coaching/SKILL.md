@@ -39,21 +39,11 @@ Ask what the trainee expects to be slow and what evidence exists. If correctness
 - Compilers can vectorize simple loops, but source shape alone does not prove that they did. After a profile identifies a hot loop, inspect GCC optimization reports or Clang/LLVM vectorization remarks before hand-writing SIMD or restructuring for the optimizer.
 - `restrict` or `inline` does not guarantee vectorization or speed. First check whether aliasing, dependencies, branches, alignment, or memory bandwidth actually constrain the loop.
 
-## Measure and revalidate
+## Test, measure and revalidate
 
-Load the [shared performance lab](../aoc-performance-lab/SKILL.md) for the experiment design: state the hypothesis, input size and shape, metric, and timing boundary; preserve a baseline; repeat comparable runs; report median and spread; re-run correctness checks.
+Use the public sample as the first failing test for the current part. If the workspace has a day scaffold, inspect and reuse it; otherwise outline a minimal parser, solver and sample-test layout. Generating files still needs explicit permission. Check edge cases and obtain agreement before running personalized input.
 
-For elapsed time, use a monotonic wall clock: on POSIX, `clock_gettime(CLOCK_MONOTONIC)` is an option; standard C `clock()` measures process CPU time, not wall-clock latency. Prefer an existing profiler such as `perf` when available, and separate profiling overhead from uninstrumented timing. Do not install tools or change machine permissions as a fallback.
-
-For a single C translation unit with a GCC/Clang-style driver and no existing build system, these are examples to adapt, not commands to paste over the project's build:
-
-```sh
-cc -std=c17 -Wall -Wextra -Wpedantic -Wconversion -O2 dayNN.c -o dayNN
-cc -std=c17 -Wall -Wextra -Wpedantic -Wconversion -g \
-  -fsanitize=address,undefined -fno-omit-frame-pointer dayNN.c -o dayNN-debug
-```
-
-Check that `cc` is the intended compiler and that the target supports these flags. Use sanitizers to investigate memory and undefined-behavior defects, not to measure release performance. Do not compare debug/sanitized timings with optimized timings. If profiling or vectorization reports need a new build target, tool, or harness edit, explain the scope and get permission first; never change machine permissions to obtain a profile.
+Load [C instrumentation](../aoc-c-instrumentation/SKILL.md) for warnings, sanitizers, test presets, compiler reports and profiling. For a correct solution, pair it with the [shared performance lab](../aoc-performance-lab/SKILL.md): state the hypothesis, input size and shape, metric and timing boundary; preserve a baseline; repeat comparable runs; report median and spread; re-run correctness checks.
 
 When suggesting a compiler or standard feature, check the exact compiler, C mode, target, and relevant library support. A language-mode flag or `__STDC_VERSION__` alone does not establish support for every library facility. State what is unknown and ask for the smallest useful build detail.
 

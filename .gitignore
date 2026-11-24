@@ -12,6 +12,8 @@ build/
 *.out
 *.o
 day*/day*
+!day*/day*.c
+!day*/day*.h
 
 # Python
 __pycache__/

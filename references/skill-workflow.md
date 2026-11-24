@@ -14,7 +14,7 @@ Start a fresh Copilot chat in this workspace and select **AoC Skills Coach**. To
 
 That agent file plus the skills directory is the complete runtime package. The other files in this repository are documentation or optional scaffolding. If the target workspace has its own Copilot instructions, the coach follows whichever rule is stricter.
 
-Use **Chat: Open Customizations** to check that the agent and ten skills are discovered. Start a new session after installing if the current session does not see them. Skill names should also appear when typing `/`; discovery alone does not prove automatic selection.
+Use **Chat: Open Customizations** to check that the agent and eleven skills are discovered. Start a new session after installing if the current session does not see them. Skill names should also appear when typing `/`; discovery alone does not prove automatic selection.
 
 Project skills are discoverable workspace-wide, not private to a particular agent. Use **AoC Skills Coach** as the entry point for the intended learning flow. User-level or other workspace skills may also be discovered.
 
@@ -90,6 +90,7 @@ The workflow also requires:
 | [aoc-python-coaching](../.github/skills/aoc-python-coaching/SKILL.md) | Python stdlib, types, modeling, iteration and caching |
 | [aoc-rust-coaching](../.github/skills/aoc-rust-coaching/SKILL.md) | Rust 2024 borrowing, enums, iterators and errors |
 | [aoc-performance-lab](../.github/skills/aoc-performance-lab/SKILL.md) | Shared benchmark method and one optimization experiment |
+| [aoc-c-instrumentation](../.github/skills/aoc-c-instrumentation/SKILL.md) | CMake, sanitizers, compiler diagnostics, CPU timing and profiling |
 | [aoc-cpp-instrumentation](../.github/skills/aoc-cpp-instrumentation/SKILL.md) | CMake, sanitizers, clang-tidy, timing/profiling |
 | [aoc-python-instrumentation](../.github/skills/aoc-python-instrumentation/SKILL.md) | Test runner, cProfile, timeit, allocation tracing |
 | [aoc-rust-instrumentation](../.github/skills/aoc-rust-instrumentation/SKILL.md) | Cargo, clippy, profiles, release timing |
@@ -112,7 +113,7 @@ For manual skill selection, stay on **AoC Skills Coach** and use, for example, `
 
 ## Validate the workflow
 
-Use the reusable [coaching scenarios](./skill-workflow-evals.json). Alongside edit consent, measurement, and review boundaries, the scenarios check C ownership/layout and optimization safety, C++ lifetimes and library support, Python parsing and collection tradeoffs, Rust edition/MSRV reasoning, and whether the coach cites relevant language documentation.
+Use the reusable [coaching scenarios](./skill-workflow-evals.json). Alongside edit consent, measurement, and review boundaries, the scenarios check C ownership/layout, diagnostics and optimization safety, C++ lifetimes and library support, Python parsing and collection tradeoffs, Rust edition/MSRV reasoning, and whether the coach cites relevant language documentation.
 
 For each scenario, use a fresh chat with the same model, tools and repository state:
 

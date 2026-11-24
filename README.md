@@ -36,6 +36,7 @@ problem solvers—not to produce one-shot answers.
 | [Python coaching](.github/skills/aoc-python-coaching/SKILL.md) | Python 3 data modeling, standard-library tools, types, iteration, and caching. |
 | [Rust coaching](.github/skills/aoc-rust-coaching/SKILL.md) | Rust 2024 ownership, borrowing, parsing, iterators, and error handling. |
 | [Performance lab](.github/skills/aoc-performance-lab/SKILL.md) | Shared hypothesis-driven optimization and benchmark design. |
+| [C instrumentation](.github/skills/aoc-c-instrumentation/SKILL.md) | C tests, warnings, sanitizers, compiler reports, CPU timing, and profiling. |
 | [C++ instrumentation](.github/skills/aoc-cpp-instrumentation/SKILL.md) | Tests, compiler diagnostics, sanitizers, clang-tidy, timing, and profiling. |
 | [Python instrumentation](.github/skills/aoc-python-instrumentation/SKILL.md) | Tests, interpreter checks, cProfile, timeit, and allocation measurements. |
 | [Rust instrumentation](.github/skills/aoc-rust-instrumentation/SKILL.md) | Cargo tests, Clippy, formatting, build profiles, timing, and profiling. |
@@ -49,7 +50,7 @@ skills only when the discussion calls for them.
 
 1. Open this repository (or your AoC workspace) in VS Code with Copilot Chat.
 2. In **Chat: Open Customizations**, check that **AoC Skills Coach** and the
-   ten skills are discovered. Start a fresh chat if you just installed them.
+   eleven skills are discovered. Start a fresh chat if you just installed them.
 3. Select **AoC Skills Coach** and tell it the puzzle day and part, language,
    what you have tried, and how much explanation you want.
 4. Stay in that conversation as you reason, implement, test, and—if invited—
@@ -77,7 +78,7 @@ repository are required. If the destination workspace has its own Copilot
 instructions, the coach follows whichever rule is stricter.
 
 The coach adapts to the workspace's build and test setup. This repository also
-includes optional [day scaffolds](templates/README.md) and a
+includes optional [day scaffolds](templates/README.md) for all four languages and a
 [scaffold script](scripts/new_day.sh); neither is required to use the workflow.
 
 ## Architecture and evaluation

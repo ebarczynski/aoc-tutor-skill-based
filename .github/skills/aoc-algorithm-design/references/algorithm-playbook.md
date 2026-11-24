@@ -46,7 +46,7 @@ Puzzle taxonomy → candidate algorithms, complexity in terms of the *actual* in
 
 ### Sets / ranges of numbers ("how many numbers in [a,b]…")
 - **Digit DP** — O(digits × states). Pros: exact counting over astronomically large ranges. Cons: fiddly bounds; verify with brute force on small ranges.
-- **Bitset tricks** — represent reachable sets as big integers (Python ints shine; C++/Rust use bitset crates or u128 arrays). Pros: O(n/64) set ops via one integer op. Cons: opaque; comment the invariant.
+- **Bitsets** — represent reachable sets as packed bits. Python integers can encode a set directly; C can use an array of `uint64_t` words, C++ a `std::bitset` or word array, and Rust a word array. Operations over a word array take time proportional to the number of words; account for allocation, width and any unused final bits. Pros: compact storage and word-at-a-time operations. Cons: less transparent invariants and tricky shifts.
 
 ## Choosing: tie-breakers, in order
 

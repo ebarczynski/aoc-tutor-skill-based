@@ -97,6 +97,20 @@
         "Flags -Ofast as potentially relaxing floating-point semantics and -march=native as reducing portability; does not recommend either blindly.",
         "Cites C language/object/restrict and GCC or Clang optimization documentation, makes no edits, and ends with one next decision."
       ]
+    },
+    {
+      "id": 8,
+      "name": "c-sanitizer-and-part-scope",
+      "prompt": "Day 3 part 1 in C17: my CMake debug sample test reports an AddressSanitizer heap-use-after-free; part 2 is not implemented. Please help me diagnose it, do not edit my files, and explain how to run only the part 1 sample.",
+      "expected_output": "Use C instrumentation and C coaching to explain ownership/lifetime and interpret the sanitizer report. For the C scaffold, select sample_part1 and rebuild before CTest; do not claim part 2 is green or optimize the faulty code.",
+      "files": [],
+      "expectations": [
+        "Distinguishes the C lane from C++ and explains that a heap access occurred after its allocation was freed.",
+        "Asks for the actionable allocation, free and access evidence instead of fabricating a fix.",
+        "Checks the actual project and suggests the C scaffold's sample_part1 filter where applicable.",
+        "Does not benchmark incorrect code, edit files, implement part 2, or infer a green aggregate suite.",
+        "Cites sanitizer documentation and ends with one learner-owned next decision."
+      ]
     }
   ]
 }

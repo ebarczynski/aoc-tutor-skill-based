@@ -46,6 +46,7 @@ All paths below are inline skills, not agents. Read a language skill once the tr
 | Python 3 representation, stdlib, types and idioms | [aoc-python-coaching](../skills/aoc-python-coaching/SKILL.md) |
 | Rust 2024 ownership, modeling and idioms | [aoc-rust-coaching](../skills/aoc-rust-coaching/SKILL.md) |
 | Shared optimization hypothesis, benchmark design and interpretation | [aoc-performance-lab](../skills/aoc-performance-lab/SKILL.md) |
+| C sanitizers, compiler warnings, timing or profiling | [aoc-c-instrumentation](../skills/aoc-c-instrumentation/SKILL.md) |
 | C++ sanitizers, clang-tidy, timing or profiling | [aoc-cpp-instrumentation](../skills/aoc-cpp-instrumentation/SKILL.md) |
 | Python test runner, cProfile, timeit or memory measurement | [aoc-python-instrumentation](../skills/aoc-python-instrumentation/SKILL.md) |
 | Rust tests, clippy, release timing or profiling | [aoc-rust-instrumentation](../skills/aoc-rust-instrumentation/SKILL.md) |

@@ -2,15 +2,16 @@
 
 One directory per day (`dayNN/`), created from the puzzle repo root:
 
-    ./scripts/new_day.sh <NN> <cpp|python|rust>      # e.g. ./scripts/new_day.sh 07 cpp
+    ./scripts/new_day.sh <NN> <c|cpp|python|rust>      # e.g. ./scripts/new_day.sh 07 c
 
 Each scaffold supports the sample-first red-green loop used by the AoC Skills Coach:
 
 - `input_sample.txt` — paste the statement's sample block here (committed;
   your personalized `input.txt` stays untracked via `.gitignore`).
-- Sample tests with **sentinel expected values** — they fail with a "fill
+- Sample tests with **unset expected answers** — they fail with a "fill
   the expected answer" message until you put the statement's published
-  answer in. That failure is the red-green anchor, not an accident.
+  answer in. The C scaffold uses separate flags so every `int64_t` value,
+  including negative answers, is representable.
 - `part1`/`part2` stubs that fail loudly until implemented.
 - Every CLI run is timed — measure, don't guess.
 
@@ -19,8 +20,30 @@ Each scaffold supports the sample-first red-green loop used by the AoC Skills Co
 1. Read the statement → paste the sample into `input_sample.txt`
 2. Fill `SAMPLE_EXPECTED_*` → run the test → **red for the right reason**
 3. Implement `part1` → green
-4. Only now: run on the real `input.txt`, record answer + time in `notes/`
+4. Check relevant edge cases; only then run on the real `input.txt` if agreed.
 5. Part 2: usually the same model, new transformation — think before rewriting
+
+## C17 (`templates/c`)
+
+Requires CMake ≥ 3.25 and a C17 compiler. Debug builds enable ASan and UBSan
+with GCC/Clang where available. From inside `dayNN/`:
+
+    cmake --preset debug && cmake --build --preset debug
+    ctest --preset sample -R '^sample_part1$' --output-on-failure
+    ctest --preset sample -R '^sample_part2$' --output-on-failure
+    ctest --preset sample --output-on-failure             # both parts
+    cmake --preset release && cmake --build --preset release
+    cmake --build --preset release -t run-p1               # local real input
+    cmake --build --preset debug -t tidy                   # if clang-tidy is installed
+
+Paste the sample into `input_sample.txt`, fill `SAMPLE_EXPECTED_P1` in
+`dayNN_test.c`, and set `SAMPLE_EXPECTED_P1_SET` to `true`. After confirming
+the part 1 test fails for the unimplemented solver, implement `dayNN_parse`
+and `dayNN_part1` in `dayNN_solver.c`. Part 2 has its own expected-value flag
+and test, so it can remain red without obscuring part 1. The release CLI
+reports solver **CPU time** using C `clock()`; it excludes parsing and I/O and
+is not elapsed wall time. The placeholder model owns no resources; if you add
+allocations, define and call an appropriate cleanup function on all paths.
 
 ## C++23 (`templates/cpp`)
 
