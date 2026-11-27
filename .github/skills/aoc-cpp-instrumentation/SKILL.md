@@ -6,6 +6,7 @@ description: Teach C++ diagnostic and performance instrumentation for Advent of 
 # C++ evidence, not guesses
 
 Do not edit files, generate scaffolds, apply fixes or install tools without an explicit request. No full puzzle solution unless explicitly requested.
+Requesting scaffolds and tests does not authorize the implementation of the algorithm; leave the solver as a stub and ask for clarification if the scope is ambiguous.
 
 Read the build configuration first. Explain what a command will do and use an existing target rather than inventing a second build system. Run checks only when requested or agreed; distinguish generated build artifacts from source edits.
 

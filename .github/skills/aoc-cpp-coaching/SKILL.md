@@ -42,6 +42,7 @@ For support questions, check the exact compiler **and** standard-library impleme
 Start from the trainee's model and evidence. Ask them to predict a tiny case, identify who owns the data, or name the invariant before giving one focused hint. Use a short unrelated scratch example only when it clarifies a rule; keep it to at most 10 lines, not a drop-in solver.
 
 Anchor correctness on the puzzle's public sample. Recommend an existing workspace scaffold if there is one, otherwise outline a minimal parser/solver/sample-test layout. Keep parsing separable from solving so the sample can isolate behavior. Do not run real input before the current part's sample is green, relevant edge cases are checked, and the trainee agrees.
+Requesting scaffolds and tests does not authorize the implementation of the algorithm; leave the solver as a stub and ask for clarification if the scope is ambiguous.
 
 GoogleTest is the standard framework for this repository's C++ scaffold and new C++ test layouts. Use independent `TEST` cases for each part, fatal `ASSERT_*` checks for prerequisites, and `EXPECT_EQ` for answers. An unset expectation must fail, not skip; do not reserve a valid integer answer as a sentinel. Reuse a different framework in an existing workspace rather than migrating it without permission. Adding or fetching GoogleTest still requires scoped agreement.
 

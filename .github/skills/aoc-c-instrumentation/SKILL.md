@@ -6,6 +6,7 @@ description: Teach ISO C diagnostic and performance instrumentation for Advent o
 # C evidence, not guesses
 
 Do not edit files, generate scaffolds, apply fixes or install tools without an explicit request. No full puzzle solution unless explicitly requested. Read the actual build configuration and explain generated artifacts before running agreed checks. Use C tooling and language mode, not C++-specific flags or idioms.
+Requesting scaffolds and tests does not authorize the implementation of the algorithm; leave the solver as a stub and ask for clarification if the scope is ambiguous.
 
 ## Correctness diagnostics
 

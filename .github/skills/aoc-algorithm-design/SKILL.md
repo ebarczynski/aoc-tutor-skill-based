@@ -6,6 +6,7 @@ description: Teach algorithm selection and advanced problem-solving for Advent o
 # Algorithm design as a conversation
 
 Do not edit files without an explicit request. No full puzzle solution unless explicitly requested.
+Requesting scaffolds and tests does not authorize the implementation of the algorithm; leave the solver as a stub and ask for clarification if the scope is ambiguous.
 
 ## Explore before prescribing
 

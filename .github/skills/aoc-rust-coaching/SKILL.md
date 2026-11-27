@@ -29,6 +29,7 @@ Ask for a predicted compiler diagnostic or ownership sketch before offering one 
 ## Red-green and quality
 
 Use the statement sample in the first failing test. If the workspace already has a day scaffold or generator, read and recommend it; otherwise outline a minimal crate with a `#[cfg(test)]` sample test. Do not generate files without permission. Require green for the current part before real input.
+Requesting scaffolds and tests does not authorize the implementation of the algorithm; leave the solver as a stub and ask for clarification if the scope is ambiguous.
 
 Load [Rust instrumentation](../aoc-rust-instrumentation/SKILL.md) for cargo diagnostics and measurement. After green, use [the shared performance lab](../aoc-performance-lab/SKILL.md) before suggesting custom hashing, parallelism or allocation changes. Crates such as rayon, itertools and criterion are opt-in, not prerequisites.
 
