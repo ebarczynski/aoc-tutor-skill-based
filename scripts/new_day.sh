@@ -22,6 +22,7 @@ DST="$(pwd)/day$DAY"
 
 mkdir -p "$DST"
 cp -R "$SRC/." "$DST/"
+rm -rf "$DST/build"
 
 # Rename day01 tokens -> dayNN: file names, crate/package names, usage strings,
 # and the human-readable "Day 01" prose. Process substitution keeps the loops
@@ -32,8 +33,9 @@ while IFS= read -r f; do
   if [ "$f" != "$new" ]; then mv "$f" "$new"; fi
 done < <(find "$DST" -depth -name '*day01*')
 while IFS= read -r f; do
-  sed -i "s/day01/day$DAY/g; s/Day 01/Day $DAY_HUMAN/g" "$f"
-done < <(grep -rl -e 'day01' -e 'Day 01' "$DST")
+  LC_ALL=C sed -i.bak -e "s/day01/day$DAY/g" -e "s/Day 01/Day $DAY_HUMAN/g" "$f"
+  rm -f "$f.bak"
+done < <(find "$DST" -type f -not -path '*/build/*')
 
 echo "day$DAY ($LANG_T) scaffolded — it is red on purpose:"
 echo "  1. paste the statement's sample into day$DAY/input_sample.txt"

@@ -1,4 +1,4 @@
 # Paste the sample input block from today's puzzle statement here.
 # (Delete these comment lines — real AoC input never has them.)
 # The statement's published sample answer goes into the test file's
-# SAMPLE_EXPECTED_* / expected_* constants.
+# SAMPLE_EXPECTED_* values.

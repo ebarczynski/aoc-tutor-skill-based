@@ -1,68 +1,38 @@
-// First failing test: the statement's sample input + its published answers.
-// 1. Paste the sample block into input_sample.txt
-// 2. Fill expected_p1 / expected_p2 below with the answers from the statement.
-// 3. cmake --build --preset debug && ctest --preset sample --output-on-failure
-//    — red for the *right* reason, then implement in dayNN.hpp. (ctest does
-//    NOT rebuild — always build before testing.)
+// Paste the statement's sample into input_sample.txt and fill the expected
+// answer for the current part. Rebuild before CTest: CTest does not compile.
 #include <cstdint>
 #include <fstream>
-#include <iostream>
-#include <sstream>
-#include <string>
+#include <optional>
+
+#include <gtest/gtest.h>
 
 #include "day01.hpp"
 
 namespace {
 
-constexpr std::int64_t kUnset = -1;  // sentinel: "expected value not filled in"
-// TODO: replace with the answers printed in the puzzle statement:
-std::int64_t expected_p1 = kUnset;
-std::int64_t expected_p2 = kUnset;
+constexpr std::optional<std::int64_t> SAMPLE_EXPECTED_P1 = std::nullopt;
+constexpr std::optional<std::int64_t> SAMPLE_EXPECTED_P2 = std::nullopt;
 
-std::string read_sample() {
-    const std::ifstream in{"input_sample.txt"};
-    if (!in) {
-        std::cout << "FAIL: input_sample.txt missing — paste the statement's sample input there\n";
-        return {};
-    }
-    std::ostringstream buf;
-    buf << in.rdbuf();
-    return buf.str();
+TEST(Sample, Part1) {
+    ASSERT_TRUE(SAMPLE_EXPECTED_P1.has_value())
+        << "fill SAMPLE_EXPECTED_P1 with the expected sample answer in day01_test.cpp";
+    std::ifstream in{"input_sample.txt"};
+    ASSERT_TRUE(in.is_open())
+        << "input_sample.txt missing — paste the statement's sample input there";
+    const auto model = day01::parse(in);
+    ASSERT_FALSE(in.bad()) << "cannot read input_sample.txt";
+    EXPECT_EQ(day01::part1(model), *SAMPLE_EXPECTED_P1);
 }
 
-int failures = 0;
-
-void run(const char* name, int part, std::int64_t expected) {
-    if (expected == kUnset) {
-        std::cout << "FAIL: " << name << " — fill the expected sample answer in day01_test.cpp\n";
-        ++failures;
-        return;
-    }
-    std::istringstream in{read_sample()};
-    try {
-        const std::int64_t got =
-            (part == 1) ? day01::part1(day01::parse(in)) : day01::part2(day01::parse(in));
-        if (got == expected) {
-            std::cout << "PASS: " << name << '\n';
-        } else {
-            std::cout << "FAIL: " << name << " — expected " << expected << ", got " << got << '\n';
-            ++failures;
-        }
-    } catch (const std::exception& e) {
-        std::cout << "FAIL: " << name << " — threw: " << e.what() << '\n';
-        ++failures;
-    }
+TEST(Sample, Part2) {
+    ASSERT_TRUE(SAMPLE_EXPECTED_P2.has_value())
+        << "fill SAMPLE_EXPECTED_P2 with the expected sample answer in day01_test.cpp";
+    std::ifstream in{"input_sample.txt"};
+    ASSERT_TRUE(in.is_open())
+        << "input_sample.txt missing — paste the statement's sample input there";
+    const auto model = day01::parse(in);
+    ASSERT_FALSE(in.bad()) << "cannot read input_sample.txt";
+    EXPECT_EQ(day01::part2(model), *SAMPLE_EXPECTED_P2);
 }
 
 }  // namespace
-
-int main() {
-    run("part1 on sample", 1, expected_p1);
-    run("part2 on sample", 2, expected_p2);
-    if (failures == 0) {
-        std::cout << "ALL GREEN — now build release and run the real input (see templates/README.md)\n";
-        return 0;
-    }
-    std::cout << failures << " failing — stay red until green\n";
-    return 1;
-}

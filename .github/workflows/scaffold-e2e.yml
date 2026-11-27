@@ -3,7 +3,7 @@ name: Scaffold E2E
 # Proves the templates keep their teaching contract, in every lane, on every
 # change to this repo:
 #   1. scaffold a scratch day via scripts/new_day.sh,
-#   2. the sample test must FAIL with the sentinel guidance message (red),
+#   2. the sample test must FAIL with the unset-answer guidance (red),
 #   3. after filling the expected answers and stubs, it must PASS (green).
 # A scaffold that silently loses its red phase would defeat the whole setup.
 
@@ -47,14 +47,17 @@ jobs:
           rc=0
           out=$(ctest --preset sample -R '^sample_part1$' --output-on-failure 2>&1) || rc=$?
           echo "$out"
-          test "$rc" -ne 0 && grep -q "fill SAMPLE_EXPECTED_P1" <<<"$out"
+          test "$rc" -ne 0
+          grep -q "fill SAMPLE_EXPECTED_P1" <<<"$out"
+          if ctest --preset sample -R '^no_such_test$'; then echo "::error::unmatched test filter must fail"; exit 1; fi
 
           sed -i 's/SAMPLE_EXPECTED_P1_SET = false/SAMPLE_EXPECTED_P1_SET = true/; s/SAMPLE_EXPECTED_P1 = 0/SAMPLE_EXPECTED_P1 = 42/' day01_test.c
           cmake --build --preset debug
           rc=0
           out=$(ctest --preset sample -R '^sample_part1$' --output-on-failure 2>&1) || rc=$?
           echo "$out"
-          test "$rc" -ne 0 && grep -q "part1 not implemented" <<<"$out"
+          test "$rc" -ne 0
+          grep -q "part1 not implemented" <<<"$out"
 
           sed -i '/bool day01_part1/,/^}/s/return false;/*answer = 42; return true;/; /bool day01_part1/,/^}/s/fprintf(stderr, "part1 not implemented: sample test first\\n");/(void)0;/' day01_solver.c
           cmake --build --preset debug
@@ -62,7 +65,8 @@ jobs:
           rc=0
           out=$(ctest --preset sample -R '^sample_part2$' --output-on-failure 2>&1) || rc=$?
           echo "$out"
-          test "$rc" -ne 0 && grep -q "fill SAMPLE_EXPECTED_P2" <<<"$out"
+          test "$rc" -ne 0
+          grep -q "fill SAMPLE_EXPECTED_P2" <<<"$out"
 
           sed -i 's/SAMPLE_EXPECTED_P2_SET = false/SAMPLE_EXPECTED_P2_SET = true/; s/SAMPLE_EXPECTED_P2 = 0/SAMPLE_EXPECTED_P2 = 7/' day01_test.c
           sed -i '/bool day01_part2/,/^}/s/return false;/*answer = 7; return true;/; /bool day01_part2/,/^}/s/fprintf(stderr, "part2 not implemented: sample test first\\n");/(void)0;/' day01_solver.c
@@ -73,7 +77,8 @@ jobs:
           rc=0
           out=$(ctest --preset sample -R '^sample_part1$' --output-on-failure 2>&1) || rc=$?
           echo "$out"
-          test "$rc" -ne 0 && grep -q "expected -1, got 42" <<<"$out"
+          test "$rc" -ne 0
+          grep -q "expected -1, got 42" <<<"$out"
           sed -i 's/\*answer = 42/\*answer = -1/' day01_solver.c
           cmake --build --preset debug
           ctest --preset sample -R '^sample_part1$' --output-on-failure
@@ -85,7 +90,8 @@ jobs:
           out=$(ctest --preset sample -R '^sample_part1$' --output-on-failure 2>&1) || rc=$?
           echo "$out"
           mv input_sample.saved input_sample.txt
-          test "$rc" -ne 0 && grep -q "input_sample.txt" <<<"$out"
+          test "$rc" -ne 0
+          grep -q "input_sample.txt" <<<"$out"
           cmake --preset release && cmake --build --preset release
           printf 'placeholder\n' > input.txt
           ./build/release/day01 1 input.txt | grep -q 'part 1: 42 (.* ms CPU time)'
@@ -94,6 +100,13 @@ jobs:
           if ./build/release/day01 3 input.txt; then echo "::error::invalid part must fail"; exit 1; fi
 
       # ---------------- C++ lane (CMake presets) ----------------
+      - name: C++ — rename smoke (day 7 -> day07)
+        if: matrix.language == 'cpp'
+        run: |
+          ./scripts/new_day.sh 7 cpp
+          test -f day07/day07.cpp && test -f day07/day07.hpp && test -f day07/day07_test.cpp
+          if grep -rq "day01" day07; then echo "::error::stale day01 tokens after rename"; exit 1; fi
+
       - name: C++ — configure + build (sanitizers), expect red
         if: matrix.language == 'cpp'
         working-directory: day01
@@ -102,26 +115,75 @@ jobs:
           cmake --preset debug
           cmake --build --preset debug
           rc=0
-          out=$(ctest --preset sample 2>&1) || rc=$?
+          out=$(ctest --preset sample -R '^Sample\.Part1$' --output-on-failure 2>&1) || rc=$?
           echo "$out"
-          if [ "$rc" -eq 0 ]; then echo "::error::tests passed on unfilled sentinels — red phase must fail"; exit 1; fi
-          grep -q "fill the expected sample answer" <<<"$out" || { echo "::error::red failure was not the sentinel guidance"; exit 1; }
+          if [ "$rc" -eq 0 ]; then echo "::error::tests passed with unset expected answers — red phase must fail"; exit 1; fi
+          grep -q "fill SAMPLE_EXPECTED_P1" <<<"$out" || { echo "::error::red failure was not the unset-answer guidance"; exit 1; }
+          if ctest --preset sample -R '^NoSuchTest$'; then echo "::error::unmatched test filter must fail"; exit 1; fi
 
-      - name: C++ — fill expected + stubs, expect green, release CLI loud
+      - name: C++ — prove red-to-green per part, negative answers and missing input
         if: matrix.language == 'cpp'
         working-directory: day01
         run: |
-          sed -i 's|std::int64_t expected_p1 = kUnset;|std::int64_t expected_p1 = 42;|; s|std::int64_t expected_p2 = kUnset;|std::int64_t expected_p2 = 7;|; s|throw std::logic_error("part1 not implemented — sample test first");|return 42;|; s|throw std::logic_error("part2 not implemented — it usually reuses part 1.s model");|return 7;|' day01_test.cpp day01.hpp
+          sed -i 's/SAMPLE_EXPECTED_P1 = std::nullopt/SAMPLE_EXPECTED_P1 = 42/' day01_test.cpp
           cmake --build --preset debug
-          # -V so the passing test's stdout (ALL GREEN) is visible for the check:
-          out=$(ctest --preset sample -V)
+          rc=0
+          out=$(ctest --preset sample -R '^Sample\.Part1$' --output-on-failure 2>&1) || rc=$?
           echo "$out"
-          grep -q "ALL GREEN" <<<"$out" || { echo "::error::did not go green"; exit 1; }
+          test "$rc" -ne 0
+          grep -q "part1 not implemented" <<<"$out"
+
+          sed -i 's/throw std::logic_error("part1 not implemented — sample test first");/return 42;/' day01.hpp
+          cmake --build --preset debug
+          ctest --preset sample -R '^Sample\.Part1$' --output-on-failure
+          rc=0
+          out=$(ctest --preset sample -R '^Sample\.Part2$' --output-on-failure 2>&1) || rc=$?
+          echo "$out"
+          test "$rc" -ne 0
+          grep -q "fill SAMPLE_EXPECTED_P2" <<<"$out"
+
+          sed -i 's/SAMPLE_EXPECTED_P2 = std::nullopt/SAMPLE_EXPECTED_P2 = 7/' day01_test.cpp
+          cmake --build --preset debug
+          rc=0
+          out=$(ctest --preset sample -R '^Sample\.Part2$' --output-on-failure 2>&1) || rc=$?
+          echo "$out"
+          test "$rc" -ne 0
+          grep -q "part2 not implemented" <<<"$out"
+          sed -i 's/throw std::logic_error("part2 not implemented — it usually reuses part 1.s model");/return 7;/' day01.hpp
+          cmake --build --preset debug
+          ctest --preset sample --output-on-failure
+
+          sed -i 's/SAMPLE_EXPECTED_P1 = 42/SAMPLE_EXPECTED_P1 = -1/' day01_test.cpp
+          cmake --build --preset debug
+          rc=0
+          out=$(ctest --preset sample -R '^Sample\.Part1$' --output-on-failure 2>&1) || rc=$?
+          echo "$out"
+          test "$rc" -ne 0
+          grep -q "Expected equality of these values" <<<"$out"
+          sed -i 's/return 42;/return -1;/' day01.hpp
+          cmake --build --preset debug
+          ctest --preset sample -R '^Sample\.Part1$' --output-on-failure
+          sed -i 's/SAMPLE_EXPECTED_P1 = -1/SAMPLE_EXPECTED_P1 = 42/' day01_test.cpp
+          sed -i 's/return -1;/return 42;/' day01.hpp
+          cmake --build --preset debug
+
+          mv input_sample.txt input_sample.saved
+          rc=0
+          out=$(ctest --preset sample -R '^Sample\.Part1$' --output-on-failure 2>&1) || rc=$?
+          echo "$out"
+          mv input_sample.saved input_sample.txt
+          test "$rc" -ne 0
+          grep -q "input_sample.txt missing" <<<"$out"
+          if command -v clang-tidy >/dev/null; then cmake --build --preset debug -t tidy; fi
+
           cmake --preset release && cmake --build --preset release
           printf 'placeholder\n' > input.txt   # trainee would have the real one
           out=$(./build/release/day01 1 input.txt 2>&1)
           echo "$out"
           grep -q "part 1: 42 (" <<<"$out" || { echo "::error::release CLI did not print the timed answer"; exit 1; }
+          ./build/release/day01 2 input.txt | grep -q 'part 2: 7 ('
+          if ./build/release/day01 1 missing.txt; then echo "::error::missing input must fail"; exit 1; fi
+          if ./build/release/day01 3 input.txt; then echo "::error::invalid part must fail"; exit 1; fi
 
       # ---------------- Python lane ----------------
       - name: Python — rename smoke (day 7 -> day07, no stale tokens)
@@ -139,17 +201,43 @@ jobs:
           rc=0
           out=$(python3 test_solution.py 2>&1) || rc=$?
           echo "$out"
-          if [ "$rc" -eq 0 ]; then echo "::error::tests passed on unfilled sentinels — red phase must fail"; exit 1; fi
-          grep -q "fill SAMPLE_EXPECTED_P1" <<<"$out" || { echo "::error::red failure was not the sentinel guidance"; exit 1; }
+          if [ "$rc" -eq 0 ]; then echo "::error::tests passed with unset expected answers — red phase must fail"; exit 1; fi
+          grep -q "fill SAMPLE_EXPECTED_P1" <<<"$out" || { echo "::error::red failure was not the unset-answer guidance"; exit 1; }
 
-      - name: Python — fill expected + stubs, expect green
+      - name: Python — prove red-to-green per part and negative answers
         if: matrix.language == 'python'
         working-directory: day01
         run: |
-          sed -i 's|SAMPLE_EXPECTED_P1 = UNSET|SAMPLE_EXPECTED_P1 = 42|; s|SAMPLE_EXPECTED_P2 = UNSET|SAMPLE_EXPECTED_P2 = 7|; s|raise NotImplementedError("part1 — sample test first")|return 42|; s|raise NotImplementedError("part2 — sample test first")|return 7|' test_solution.py solution.py
+          if python3 test_solution.py 3; then echo "::error::invalid part must fail"; exit 1; fi
+          sed -i 's/SAMPLE_EXPECTED_P1: int | None = None/SAMPLE_EXPECTED_P1: int | None = 42/' test_solution.py
+          rc=0
+          out=$(python3 test_solution.py 1 2>&1) || rc=$?
+          echo "$out"
+          test "$rc" -ne 0
+          grep -q "part1 — sample test first" <<<"$out"
+
+          sed -i 's|raise NotImplementedError("part1 — sample test first")|return 42|' solution.py
+          python3 test_solution.py 1
+          rc=0
+          out=$(python3 test_solution.py 2 2>&1) || rc=$?
+          echo "$out"
+          test "$rc" -ne 0
+          grep -q "fill SAMPLE_EXPECTED_P2" <<<"$out"
+
+          sed -i 's/SAMPLE_EXPECTED_P2: int | None = None/SAMPLE_EXPECTED_P2: int | None = -1/' test_solution.py
+          sed -i 's|raise NotImplementedError("part2 — sample test first")|return -1|' solution.py
           out=$(python3 test_solution.py)
           echo "$out"
           grep -q "ALL GREEN" <<<"$out" || { echo "::error::did not go green"; exit 1; }
+
+          mv input_sample.txt input_sample.saved
+          rc=0
+          out=$(python3 test_solution.py 1 2>&1) || rc=$?
+          echo "$out"
+          mv input_sample.saved input_sample.txt
+          test "$rc" -ne 0
+          grep -q "input_sample.txt missing" <<<"$out"
+          python3 solution.py 2 input_sample.txt | grep -q 'part 2: -1 ('
 
       # ---------------- Rust lane ----------------
       - name: Rust — expect red
@@ -160,14 +248,32 @@ jobs:
           rc=0
           out=$(cargo test 2>&1) || rc=$?
           echo "$out"
-          if [ "$rc" -eq 0 ]; then echo "::error::tests passed on unfilled sentinels — red phase must fail"; exit 1; fi
-          grep -q "fill SAMPLE_EXPECTED_P1" <<<"$out" || { echo "::error::red failure was not the sentinel guidance"; exit 1; }
+          if [ "$rc" -eq 0 ]; then echo "::error::tests passed with unset expected answers — red phase must fail"; exit 1; fi
+          grep -q "fill SAMPLE_EXPECTED_P1" <<<"$out" || { echo "::error::red failure was not the unset-answer guidance"; exit 1; }
 
-      - name: Rust — fill expected + stubs, expect green
+      - name: Rust — prove red-to-green per part and negative answers
         if: matrix.language == 'rust'
         working-directory: day01
         run: |
-          sed -i 's|const SAMPLE_EXPECTED_P1: i64 = UNSET;|const SAMPLE_EXPECTED_P1: i64 = 42;|; s|const SAMPLE_EXPECTED_P2: i64 = UNSET;|const SAMPLE_EXPECTED_P2: i64 = 7;|; s|todo!("part1 — only after the sample test is red")|42|; s|todo!("part2 — it usually reuses part 1.s model; think before rewriting")|7|' src/main.rs
+          sed -i 's|const SAMPLE_EXPECTED_P1: Option<i64> = None;|const SAMPLE_EXPECTED_P1: Option<i64> = Some(42);|' src/main.rs
+          rc=0
+          out=$(cargo test part1_sample 2>&1) || rc=$?
+          echo "$out"
+          test "$rc" -ne 0
+          grep -q "part1 — only after the sample test is red" <<<"$out"
+
+          sed -i 's|todo!("part1 — only after the sample test is red")|42|' src/main.rs
+          out=$(cargo test part1_sample 2>&1)
+          echo "$out"
+          grep -q "test result: ok. 1 passed" <<<"$out" || { echo "::error::part 1 did not go green alone"; exit 1; }
+          rc=0
+          out=$(cargo test part2_sample 2>&1) || rc=$?
+          echo "$out"
+          test "$rc" -ne 0
+          grep -q "fill SAMPLE_EXPECTED_P2" <<<"$out"
+
+          sed -i 's|const SAMPLE_EXPECTED_P2: Option<i64> = None;|const SAMPLE_EXPECTED_P2: Option<i64> = Some(-1);|; s|todo!("part2 — it usually reuses part 1.s model; think before rewriting")|-1|' src/main.rs
           out=$(cargo test 2>&1)
           echo "$out"
           grep -q "test result: ok. 2 passed" <<<"$out" || { echo "::error::did not go green"; exit 1; }
+          cargo clippy --all-targets -- -D warnings

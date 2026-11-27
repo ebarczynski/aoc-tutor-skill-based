@@ -75,7 +75,7 @@ The workflow also requires:
 
 - **No automatic edits:** code, tests, scaffolds, configuration and scratch files are trainee-owned. "Help me optimize" or "review this" does not authorize edits. A formatter, generator, dependency install or shell redirection is not a loophole.
 - **Scoped consent:** "Add this sample assertion" permits that assertion, not a solver. "Show the full solution" permits displaying it with a walkthrough, not writing files. Permission is bounded to the requested change.
-- **Sample first:** each part needs its own red-green evidence. A sentinel failure is setup guidance; after filling the statement's expected answer, observe red for the missing behavior. Only after green and edge checks should real input be used.
+- **Sample first:** each part needs its own red-green evidence. An unset-answer failure is setup guidance; after filling the statement's expected answer, observe red for the missing behavior. Only after green and edge checks should real input be used.
 - **Evidence, not theater:** ask what the trainee predicts; distinguish an observation from a hypothesis. Cite relevant authoritative docs, verify version-sensitive claims, and report checks not run. Never invent benchmark results.
 - **One conversation:** keep the trainee's reasoning, decisions, test evidence and skill guidance in this coach conversation. If skill loading is unavailable, the coach can read the relevant skill file and disclose that fallback.
 - **Private input stays local:** do not upload, publish or commit personalized inputs or reports containing them.
@@ -86,12 +86,12 @@ The workflow also requires:
 |---|---|
 | [aoc-algorithm-design](../.github/skills/aoc-algorithm-design/SKILL.md) | State design, two approaches, DP, graph search, cycles, intervals, arithmetic (bundles its own algorithm playbook) |
 | [aoc-c-coaching](../.github/skills/aoc-c-coaching/SKILL.md) | Portable C17/C23, memory and data layout, compiler behavior, and evidence-based low-level optimization |
-| [aoc-cpp-coaching](../.github/skills/aoc-cpp-coaching/SKILL.md) | C++23/26 parsing, ownership, ranges, containers and idioms |
+| [aoc-cpp-coaching](../.github/skills/aoc-cpp-coaching/SKILL.md) | C++23/26 parsing, ownership, ranges, containers, idioms and GoogleTest sample tests |
 | [aoc-python-coaching](../.github/skills/aoc-python-coaching/SKILL.md) | Python stdlib, types, modeling, iteration and caching |
 | [aoc-rust-coaching](../.github/skills/aoc-rust-coaching/SKILL.md) | Rust 2024 borrowing, enums, iterators and errors |
 | [aoc-performance-lab](../.github/skills/aoc-performance-lab/SKILL.md) | Shared benchmark method and one optimization experiment |
 | [aoc-c-instrumentation](../.github/skills/aoc-c-instrumentation/SKILL.md) | CMake, sanitizers, compiler diagnostics, CPU timing and profiling |
-| [aoc-cpp-instrumentation](../.github/skills/aoc-cpp-instrumentation/SKILL.md) | CMake, sanitizers, clang-tidy, timing/profiling |
+| [aoc-cpp-instrumentation](../.github/skills/aoc-cpp-instrumentation/SKILL.md) | CMake/GoogleTest per-part discovery, sanitizers, clang-tidy, timing/profiling |
 | [aoc-python-instrumentation](../.github/skills/aoc-python-instrumentation/SKILL.md) | Test runner, cProfile, timeit, allocation tracing |
 | [aoc-rust-instrumentation](../.github/skills/aoc-rust-instrumentation/SKILL.md) | Cargo, clippy, profiles, release timing |
 | [aoc-quality-review](../.github/skills/aoc-quality-review/SKILL.md) | Invited post-solve review and learning retrospective |

@@ -15,7 +15,8 @@ Find the existing test entry point first. For a `dayNN/` layout with a `test_sol
 
 ```sh
 python3 --version
-python3 dayNN/test_solution.py
+python3 dayNN/test_solution.py      # both parts
+python3 dayNN/test_solution.py 1    # current part only
 ```
 
 A plain runner like that needs no third-party dependency. If pytest is already available:
@@ -24,7 +25,7 @@ A plain runner like that needs no third-party dependency. If pytest is already a
 python3 -m pytest -q dayNN --import-mode=importlib
 ```
 
-Check whether the runner executes both parts and whether it has a part selector. For part 1 alone, use pytest's `-k part1` when available, or call the existing part-1 sample test function directly with the selected interpreter. Do not claim the aggregate suite is green when part 2 is intentionally red. An unfinished part 2 is not evidence that part 1 is wrong. Read the assertion and expected sample answer before changing anything. Syntax-only `py_compile` is not a correctness test; it can create bytecode caches.
+Check whether the runner executes both parts and whether it has a part selector. The repository's scaffold runner accepts an optional `1` or `2`; with pytest, `-k part1` selects part 1 and pytest reports an error when nothing is collected. In other layouts, call the existing part-1 sample test function directly with the selected interpreter. The scaffold's unset answers are `None`, so `-1` remains a valid expected answer. Do not claim the aggregate suite is green when part 2 is intentionally red. An unfinished part 2 is not evidence that part 1 is wrong. Read the assertion and expected sample answer before changing anything. Syntax-only `py_compile` is not a correctness test; it can create bytecode caches.
 
 ## Measurement after green
 
