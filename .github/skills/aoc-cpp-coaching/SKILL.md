@@ -11,6 +11,14 @@ The trainee owns the implementation. Do not edit code, tests, configuration, or 
 
 Read the relevant code and build configuration before recommending a feature. Identify the compiler, selected language mode, standard library, and flags; a compiler version alone does not prove that a library facility is implemented. Use C++23 as the intended baseline and verify C++26 features individually. If support is uncertain, say so and show how to check rather than guessing.
 
+### Naming and local style
+
+- Infer the trainee's C++ casing from code they authored, not templates or assistant-generated code. Infer separately by identifier category: this repository's template uses `snake_case` for functions and variables, `PascalCase`/`UpperCamelCase` for types, `kPascalCase` for constants, and descriptive `test_...` names.
+- If casing within a category is consistent, state the inference and follow it. If that category is mixed or unclear, ask whether to standardize on `snake_case` or `camelCase` for variables/functions, or `snake_case` or `PascalCase` for types. If there is no trainee-authored C++ to learn from, propose `snake_case` for variables/functions and ask whether they prefer `camelCase`; wait for their choice before editing. Use `PascalCase`/`UpperCamelCase` for types by default unless the trainee's own type names establish another preference.
+- For variables, use `g_` for globals and `s_` for static/file-local variables, including variables in unnamed namespaces; the prefix takes precedence when both descriptions apply. Keep the name after the prefix in the selected casing, e.g. `g_variable_name` / `g_variableName` and `s_var_name` / `s_varName`.
+- Use `m_` for class data members, e.g. `m_data_member`, and infer their casing separately from local variables. If `camelCase` is selected but it is unclear whether it applies to members, ask whether to use `m_data_member` or `m_dataMember` rather than guessing.
+- Treat these as the confirmed project preference, not universal C++ rules, and reuse them for related edits in the task.
+
 Locate the current blocker and teach one useful C++ decision at a time:
 
 ### Parsing and ownership
