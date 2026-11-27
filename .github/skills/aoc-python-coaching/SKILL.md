@@ -25,6 +25,7 @@ Ask the trainee to predict a tiny example before explaining behavior. Offer one 
 ## Red-green and quality
 
 Use the statement's sample input and expected answer as the first correctness test. Reuse an existing workspace runner if available; otherwise a plain `assert`-based test is enough and pytest is optional. If pytest is already part of the project, [`pytest.mark.parametrize`](https://docs.pytest.org/en/stable/how-to/parametrize.html) can run the sample and small edge cases through the same behavior. Read the expected value and test scope before interpreting a failure. Do not install dependencies or generate files without permission, and do not put personalized input in committed fixtures.
+Requesting scaffolds and tests does not authorize the implementation of the algorithm; leave the solver as a stub and ask for clarification if the scope is ambiguous.
 
 For diagnostics or profiling, load [Python instrumentation](../aoc-python-instrumentation/SKILL.md); after green, start with [the shared performance lab](../aoc-performance-lab/SKILL.md). Prefer algorithmic wins over unmeasured local binding, interning or comprehension tricks. Third-party dependencies require an explicit opt-in and a reason.
 

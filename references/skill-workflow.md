@@ -75,6 +75,7 @@ The workflow also requires:
 
 - **No automatic edits:** code, tests, scaffolds, configuration and scratch files are trainee-owned. "Help me optimize" or "review this" does not authorize edits. A formatter, generator, dependency install or shell redirection is not a loophole.
 - **Scoped consent:** "Add this sample assertion" permits that assertion, not a solver. "Show the full solution" permits displaying it with a walkthrough, not writing files. Permission is bounded to the requested change.
+- **Scaffold scope:** Requesting scaffolds and tests does not authorize the implementation of the algorithm; leave the solver as a stub and ask for clarification if the scope is ambiguous.
 - **Sample first:** each part needs its own red-green evidence. An unset-answer failure is setup guidance; after filling the statement's expected answer, observe red for the missing behavior. Only after green and edge checks should real input be used.
 - **Evidence, not theater:** ask what the trainee predicts; distinguish an observation from a hypothesis. Cite relevant authoritative docs, verify version-sensitive claims, and report checks not run. Never invent benchmark results.
 - **One conversation:** keep the trainee's reasoning, decisions, test evidence and skill guidance in this coach conversation. If skill loading is unavailable, the coach can read the relevant skill file and disclose that fallback.

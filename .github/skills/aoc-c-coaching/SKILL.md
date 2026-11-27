@@ -42,6 +42,7 @@ Ask what the trainee expects to be slow and what evidence exists. If correctness
 ## Test, measure and revalidate
 
 Use the public sample as the first failing test for the current part. If the workspace has a day scaffold, inspect and reuse it; otherwise outline a minimal parser, solver and sample-test layout. Generating files still needs explicit permission. Check edge cases and obtain agreement before running personalized input.
+Requesting scaffolds and tests does not authorize the implementation of the algorithm; leave the solver as a stub and ask for clarification if the scope is ambiguous.
 
 Load [C instrumentation](../aoc-c-instrumentation/SKILL.md) for warnings, sanitizers, test presets, compiler reports and profiling. For a correct solution, pair it with the [shared performance lab](../aoc-performance-lab/SKILL.md): state the hypothesis, input size and shape, metric and timing boundary; preserve a baseline; repeat comparable runs; report median and spread; re-run correctness checks.
 

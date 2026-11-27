@@ -6,6 +6,7 @@ description: Teach Python testing and profiling instrumentation for Advent of Co
 # Python evidence, not guesses
 
 Do not edit files, generate scaffolds, apply fixes or install tools without an explicit request. No full puzzle solution unless explicitly requested.
+Requesting scaffolds and tests does not authorize the implementation of the algorithm; leave the solver as a stub and ask for clarification if the scope is ambiguous.
 
 Inspect the selected interpreter, CLI and tests. Use that interpreter consistently; `python3` below is an example command, not a guarantee it matches the editor. Explain artifacts and run checks only when requested or agreed.
 
