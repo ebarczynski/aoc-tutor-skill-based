@@ -55,12 +55,10 @@ fn main() -> ExitCode {
 mod tests {
     use super::*;
 
-    /// Sentinel: "expected value not filled in yet".
-    const UNSET: i64 = -1;
-    /// TODO: the answer printed in the puzzle statement for the sample.
-    const SAMPLE_EXPECTED_P1: i64 = UNSET;
-    /// TODO: the answer printed in the puzzle statement for the sample.
-    const SAMPLE_EXPECTED_P2: i64 = UNSET;
+    /// The answers printed in the puzzle statement for the sample.
+    /// `None` means "not filled in yet"; every `i64`, including -1, is valid.
+    const SAMPLE_EXPECTED_P1: Option<i64> = None;
+    const SAMPLE_EXPECTED_P2: Option<i64> = None;
 
     fn sample() -> String {
         fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/input_sample.txt"))
@@ -69,19 +67,15 @@ mod tests {
 
     #[test]
     fn part1_sample() {
-        assert_ne!(
-            SAMPLE_EXPECTED_P1, UNSET,
-            "fill SAMPLE_EXPECTED_P1 with the answer from the puzzle statement"
-        );
-        assert_eq!(part1(&parse(&sample())), SAMPLE_EXPECTED_P1);
+        let expected = SAMPLE_EXPECTED_P1
+            .expect("fill SAMPLE_EXPECTED_P1 with the answer from the puzzle statement");
+        assert_eq!(part1(&parse(&sample())), expected);
     }
 
     #[test]
     fn part2_sample() {
-        assert_ne!(
-            SAMPLE_EXPECTED_P2, UNSET,
-            "fill SAMPLE_EXPECTED_P2 with the answer from the puzzle statement"
-        );
-        assert_eq!(part2(&parse(&sample())), SAMPLE_EXPECTED_P2);
+        let expected = SAMPLE_EXPECTED_P2
+            .expect("fill SAMPLE_EXPECTED_P2 with the answer from the puzzle statement");
+        assert_eq!(part2(&parse(&sample())), expected);
     }
 }

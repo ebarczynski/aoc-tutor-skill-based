@@ -17,7 +17,7 @@ cmake --build --preset debug
 ctest --preset sample -R '^sample_part1$' --output-on-failure
 ```
 
-Select `sample_part2` for part 2, or omit `-R` to run both. Rebuild before testing: CTest does not compile. Each part's expected-value flag is independent, so an unfinished part 2 does not prevent an isolated part 1 test from passing. For any other project, inspect its actual test names, build presets and sanitizer flags first.
+Select `sample_part2` for part 2, or omit `-R` to run both; the scaffold's `sample` preset fails when a filter matches no test, so a typo cannot look green. Rebuild before testing: CTest does not compile. Each part's expected-value flag is independent, so an unfinished part 2 does not prevent an isolated part 1 test from passing. For any other project, inspect its actual test names, build presets and sanitizer flags first.
 
 The scaffold enables ASan and UBSan for GCC/Clang debug builds where supported. Sanitizers catch some errors, not all undefined behavior or correctness defects; interpret their first actionable report with the trainee. Check allocation size arithmetic, ownership, bounds and lifetimes rather than suppressing warnings. If `clang-tidy` is installed and the project defines a `tidy` target, `cmake --build --preset debug -t tidy` provides static analysis without applying fixes.
 

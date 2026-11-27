@@ -17,25 +17,37 @@ function(aoc_warnings tgt)
     if(MSVC)
         target_compile_options(${tgt} PRIVATE /W4 /permissive-)
     else()
-        target_compile_options(${tgt} PRIVATE -Wall -Wextra -Wpedantic -Wconversion)
+        target_compile_options(${tgt} PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Wold-style-cast)
     endif()
 endfunction()
 
 add_executable(day01 day01.cpp day01.hpp)
 aoc_warnings(day01)
 
-add_executable(day01_test day01_test.cpp day01.hpp)
-aoc_warnings(day01_test)
-if(AOC_SANITIZERS AND NOT MSVC)
-    target_compile_options(day01_test PRIVATE -g -fsanitize=address,undefined -fno-omit-frame-pointer)
-    target_link_options(day01_test PRIVATE -fsanitize=address,undefined)
-endif()
+include(CTest)
+if(BUILD_TESTING)
+    include(FetchContent)
+    # GoogleTest v1.17.0, pinned to an immutable release commit.
+    FetchContent_Declare(googletest
+        URL https://github.com/google/googletest/archive/52eb8108c5bdec04579160ae17225d66034bd723.zip
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        SYSTEM)
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+    set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(googletest)
 
-enable_testing()
-# The statement's sample input/answers are the first failing test:
-add_test(NAME sample
-         COMMAND day01_test
-         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    add_executable(day01_test day01_test.cpp day01.hpp)
+    target_link_libraries(day01_test PRIVATE GTest::gtest_main)
+    aoc_warnings(day01_test)
+    if(AOC_SANITIZERS AND NOT MSVC)
+        target_compile_options(day01_test PRIVATE -g -fsanitize=address,undefined -fno-omit-frame-pointer)
+        target_link_options(day01_test PRIVATE -fsanitize=address,undefined)
+    endif()
+
+    include(GoogleTest)
+    gtest_discover_tests(day01_test WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+endif()
 
 # Timed runs on the real (personalized, untracked) input:
 add_custom_target(run-p1
@@ -49,8 +61,16 @@ add_custom_target(run-p2
 
 find_program(CLANG_TIDY_EXE NAMES clang-tidy)
 if(CLANG_TIDY_EXE)
+    set(AOC_TIDY_SOURCES day01.cpp)
+    if(BUILD_TESTING)
+        list(APPEND AOC_TIDY_SOURCES day01_test.cpp)
+    endif()
     add_custom_target(tidy
-        COMMAND ${CLANG_TIDY_EXE} -p build/debug day01.cpp day01_test.cpp
+        COMMAND ${CLANG_TIDY_EXE} -p build/debug
+            --checks=clang-analyzer-*,cppcoreguidelines-pro-type-cstyle-cast
+            --warnings-as-errors=cppcoreguidelines-pro-type-cstyle-cast,clang-diagnostic-old-style-cast
+            "--header-filter=${CMAKE_CURRENT_SOURCE_DIR}/day[0-9]+\\.hpp$"
+            ${AOC_TIDY_SOURCES}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         VERBATIM)
 endif()

@@ -22,18 +22,15 @@ inline Model parse(std::istream& in) {
     while (std::getline(in, line)) {
         // TODO: per-line parsing — std::from_chars (no exceptions, no
         // allocation), string_view, or ranges views when they clarify.
-        (void)line;
     }
     return model;
 }
 
-inline std::int64_t part1(const Model& model) {
-    (void)model;
+inline std::int64_t part1([[maybe_unused]] const Model& model) {
     throw std::logic_error("part1 not implemented — sample test first");
 }
 
-inline std::int64_t part2(const Model& model) {
-    (void)model;
+inline std::int64_t part2([[maybe_unused]] const Model& model) {
     throw std::logic_error("part2 not implemented — it usually reuses part 1's model");
 }
 

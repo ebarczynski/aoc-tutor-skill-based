@@ -32,7 +32,7 @@ problem solvers—not to produce one-shot answers.
 | [AoC Skills Coach](.github/agents/aoc-skills-coach.agent.md) | Guides the trainee through the puzzle, routes relevant skills, and keeps the conversation in one voice. |
 | [Algorithm design](.github/skills/aoc-algorithm-design/SKILL.md) | Models the problem and teaches algorithm choices such as graph search, dynamic programming, cycle detection, and interval methods. Includes a bundled algorithm playbook. |
 | [C coaching](.github/skills/aoc-c-coaching/SKILL.md) | Portable C17/C23 and measured performance: parsing, memory ownership, data layout, compiler behavior, and C-specific safety. |
-| [C++ coaching](.github/skills/aoc-cpp-coaching/SKILL.md) | C++23/26 representation, parsing, lifetimes, ownership, containers, and idioms. |
+| [C++ coaching](.github/skills/aoc-cpp-coaching/SKILL.md) | C++23/26 representation, parsing, lifetimes, ownership, containers, idioms, and GoogleTest sample tests. |
 | [Python coaching](.github/skills/aoc-python-coaching/SKILL.md) | Python 3 data modeling, standard-library tools, types, iteration, and caching. |
 | [Rust coaching](.github/skills/aoc-rust-coaching/SKILL.md) | Rust 2024 ownership, borrowing, parsing, iterators, and error handling. |
 | [Performance lab](.github/skills/aoc-performance-lab/SKILL.md) | Shared hypothesis-driven optimization and benchmark design. |
@@ -80,6 +80,8 @@ instructions, the coach follows whichever rule is stricter.
 The coach adapts to the workspace's build and test setup. This repository also
 includes optional [day scaffolds](templates/README.md) for all four languages and a
 [scaffold script](scripts/new_day.sh); neither is required to use the workflow.
+The C++ scaffold uses GoogleTest as its standard test framework, with
+independently selectable sample tests for each part and no C-style casts.
 
 ## Architecture and evaluation
 

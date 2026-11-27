@@ -111,6 +111,20 @@
         "Does not benchmark incorrect code, edit files, implement part 2, or infer a green aggregate suite.",
         "Cites sanitizer documentation and ends with one learner-owned next decision."
       ]
+    },
+    {
+      "id": 9,
+      "name": "cpp-gtest-part-scope-and-casts",
+      "prompt": "Day 3 part 1 in the repository's C++23 scaffold. I filled SAMPLE_EXPECTED_P1 with -1, but part 2 is unfinished. How do I run just part 1 with GoogleTest and CTest? My stub parameters use (void)model to silence warnings; should I change that to a static_cast<void>? Please explain without running commands, editing files, or implementing either solver.",
+      "expected_output": "Explain the scaffold's GoogleTest discovery and current-part CTest filter, rebuild-before-test requirement, optional unset expectations, and intentionally unused parameter idiom. Do not suggest a cast merely to silence diagnostics or infer a passing test.",
+      "files": [],
+      "expectations": [
+        "Uses the C++ coaching and instrumentation guidance and identifies Sample.Part1 as the scaffold's independent CTest entry.",
+        "Shows the part-1 filter and requires a rebuild before testing, without executing commands or claiming green.",
+        "Explains that std::nullopt means unset and -1 is a valid expected answer; does not skip unfinished tests to fake green.",
+        "Recommends [[maybe_unused]] for intentionally unused stub parameters, not a mechanical static_cast<void> replacement.",
+        "Keeps advice scoped, cites relevant GoogleTest or CMake documentation, and ends with one learner-owned next decision."
+      ]
     }
   ]
 }

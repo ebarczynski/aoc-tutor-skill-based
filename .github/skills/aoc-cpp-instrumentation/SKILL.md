@@ -16,16 +16,18 @@ The commands below are examples for a day directory whose `CMakePresets.json` de
 ```sh
 cmake --preset debug
 cmake --build --preset debug
-ctest --preset sample --output-on-failure
+ctest --preset sample -R '^Sample\.Part1$' --output-on-failure
 ```
 
-Check whether the debug build enables ASan/UBSan rather than assuming it. If a single test executable runs both puzzle parts, a CTest name filter cannot isolate part 1 inside it. An unfinished part 2 can therefore keep the aggregate run red even when the reported part-1 assertion passes. Report per-part evidence and the failing aggregate honestly; if an isolated passing process is needed, request permission for a narrowly scoped test-runner change rather than inventing a selector or implementing part 2.
+The repository's C++ scaffold uses GoogleTest with CMake test discovery: `Sample.Part1` and `Sample.Part2` are independent CTest tests. Select `Sample.Part2` for part 2, or omit `-R` for both; the `sample` preset fails when a filter matches no test, so a typo cannot look green. CTest does not rebuild. Fill the current part's optional `SAMPLE_EXPECTED_*` value from the statement, then observe the unimplemented solver fail before implementing it. Fatal assertions stop on an unset answer or missing sample file; `-1` remains a valid expected answer. Initial configuration fetches the pinned GoogleTest dependency, so explain that network/build artifact boundary before an agreed run.
+
+Check whether the debug build enables ASan/UBSan rather than assuming it. In other workspaces, inspect `ctest --show-only` and the runner before choosing a filter. A single aggregate CTest entry cannot isolate assertions inside its executable unless the runner provides a selector. Report per-part evidence and a failing aggregate honestly; do not invent a selector or implement part 2 to obtain green.
 
 For a small single-translation-unit project without an existing build system, adapt the source and output names in commands like these:
 
 ```sh
-g++ -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -O2 dayNN.cpp -o dayNN
-g++ -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -g \
+g++ -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wold-style-cast -O2 dayNN.cpp -o dayNN
+g++ -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wold-style-cast -g \
   -fsanitize=address,undefined -fno-omit-frame-pointer dayNN.cpp -o dayNN-debug
 ```
 
@@ -52,6 +54,8 @@ clang-tidy --checks='cppcoreguidelines-*,bugprone-*,performance-*,modernize-*' \
 
 Check which checks are enabled and explain relevant findings; a broad check set may need project-specific filtering. Do not suppress a warning or apply `--fix` merely to make the output clean.
 
+The scaffold enables `-Wold-style-cast` alongside its other GCC/Clang warnings. Its `tidy` target explicitly adds analyzer and C-style-cast checks and treats the latter as errors, including in the solver header; other enabled checks still follow the local configuration. Diagnose conversions rather than replacing them mechanically with named casts. Intentionally unused stub parameters use `[[maybe_unused]]`, not `(void)` casts.
+
 ## Measurement after green
 
 Load [the shared performance lab](../aoc-performance-lab/SKILL.md). Configure/build an existing release configuration separately from timing, for example:
@@ -68,5 +72,7 @@ Teach `std::chrono::steady_clock` for elapsed intervals. Harness edits require e
 Report exact commands, flags, test/profile evidence and limits. End with one **Next decision**.
 
 ## Sources
+
+[GoogleTest primer](https://google.github.io/googletest/primer.html) and [CMake GoogleTest discovery](https://cmake.org/cmake/help/latest/module/GoogleTest.html) for assertions and per-case test selection.
 
 [ASan](https://clang.llvm.org/docs/AddressSanitizer.html), [UBSan](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html), [clang-tidy](https://clang.llvm.org/extra/clang-tidy/), [C++ compiler/library support](https://en.cppreference.com/w/cpp/compiler_support), [MSVC language modes](https://learn.microsoft.com/en-us/cpp/build/reference/std-specify-language-standard-version?view=msvc-170), [steady_clock](https://en.cppreference.com/w/cpp/chrono/steady_clock), [perf](https://perfwiki.github.io/main/).

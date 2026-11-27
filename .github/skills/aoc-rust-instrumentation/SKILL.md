@@ -20,7 +20,7 @@ cargo clippy --manifest-path dayNN/Cargo.toml --all-targets -- -D warnings
 cargo fmt --manifest-path dayNN/Cargo.toml -- --check
 ```
 
-Use a current-part test filter if a later-part stub is intentionally red. Distinguish compiler errors, assertion failures and lint advice. Ask the trainee to explain the first meaningful diagnostic before proposing a local fix. Do not use `cargo fix` or a formatting rewrite by default.
+Use a current-part test filter if a later-part stub is intentionally red, for example `cargo test --manifest-path dayNN/Cargo.toml part1_sample` in the repository's scaffold. Check that the summary reports `1 passed`: Cargo exits successfully when a misspelled filter matches no tests. The scaffold's unset answers are `None`, so `Some(-1)` is a valid expected answer. Distinguish compiler errors, assertion failures and lint advice. Ask the trainee to explain the first meaningful diagnostic before proposing a local fix. Do not use `cargo fix` or a formatting rewrite by default.
 
 Inspect integer arithmetic and the active profile. Read `Cargo.toml` for `[profile.release] overflow-checks`; release builds disable overflow checks by default, so do not assume debug and release have identical behavior. Suggest a manifest change only with its reasoning; apply it only on explicit request.
 

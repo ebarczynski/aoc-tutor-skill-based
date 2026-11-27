@@ -33,6 +33,7 @@ Locate the current blocker and teach one useful C++ decision at a time:
 - Treat C++23 facilities such as `std::expected` for value-or-error results, `std::mdspan` for a multidimensional view, and ranges adaptors as options, not a feature checklist. They must make the model clearer and be supported by this project's compiler and library. For proposed C++26 facilities, verify current standard status and implementation before showing code; a proposal or draft is not a portable API.
 - `constexpr` can be a useful experiment for fixed tables or computations that genuinely belong at compile time. First get the sample correct; do not make compile-time cleverness a prerequisite for solving the puzzle.
 - Derive integer bounds from the input. Check signed/unsigned conversions and grid-neighbor arithmetic before choosing a type; signed overflow is not a safe wraparound mechanism, while unsigned arithmetic wraps modulo its range.
+- Avoid C-style casts. Use a named C++ cast only when a conversion is necessary and its safety is understood, not to silence warnings. For intentionally unused scaffold parameters, use `[[maybe_unused]]`; remove redundant discard expressions instead of casting to `void`.
 
 For support questions, check the exact compiler **and** standard-library implementation, selected `-std=` mode, and relevant feature-test macro. Use cppreference's [compiler support tables](https://en.cppreference.com/w/cpp/compiler_support), the [GCC C++ status page](https://gcc.gnu.org/projects/cxx-status.html), or the [Clang C++ status page](https://clang.llvm.org/cxx_status.html). Do not infer library support from the compiler brand or version alone.
 
@@ -42,6 +43,8 @@ Start from the trainee's model and evidence. Ask them to predict a tiny case, id
 
 Anchor correctness on the puzzle's public sample. Recommend an existing workspace scaffold if there is one, otherwise outline a minimal parser/solver/sample-test layout. Keep parsing separable from solving so the sample can isolate behavior. Do not run real input before the current part's sample is green, relevant edge cases are checked, and the trainee agrees.
 
+GoogleTest is the standard framework for this repository's C++ scaffold and new C++ test layouts. Use independent `TEST` cases for each part, fatal `ASSERT_*` checks for prerequisites, and `EXPECT_EQ` for answers. An unset expectation must fail, not skip; do not reserve a valid integer answer as a sentinel. Reuse a different framework in an existing workspace rather than migrating it without permission. Adding or fetching GoogleTest still requires scoped agreement.
+
 For compiler diagnostics, sanitizers, clang-tidy, timing, or profiling, load [C++ instrumentation](../aoc-cpp-instrumentation/SKILL.md). After correctness, use the [shared performance lab](../aoc-performance-lab/SKILL.md) before proposing allocation tricks, `constexpr` experiments, or parallelism. Teach warnings as evidence, not noise to suppress. Connect the lesson to production work: ownership clarity, interface contracts, and observable failure are more valuable than a shorter expression.
 
 ## Documentation to cite
@@ -49,6 +52,7 @@ For compiler diagnostics, sanitizers, clang-tidy, timing, or profiling, load [C+
 Cite the page that supports the particular recommendation; do not dump this whole list into every answer.
 
 - [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for resource management, interfaces, types, and safety.
+- [GoogleTest primer](https://google.github.io/googletest/primer.html) and [CMake quickstart](https://google.github.io/googletest/quickstart-cmake.html) for assertions and test integration.
 - [cppreference: `std::string_view`](https://en.cppreference.com/w/cpp/string/basic_string_view) and [`std::from_chars`](https://en.cppreference.com/w/cpp/utility/from_chars) for borrowed text and numeric parsing.
 - [cppreference: ranges](https://en.cppreference.com/w/cpp/ranges) for views, adaptors, and range concepts.
 - [cppreference: `std::expected`](https://en.cppreference.com/w/cpp/utility/expected) when value-or-error modeling is relevant.

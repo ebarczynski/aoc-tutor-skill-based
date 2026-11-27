@@ -31,7 +31,8 @@
       "name": "sample",
       "displayName": "Sample tests (the red-green anchor)",
       "configurePreset": "debug",
-      "output": { "outputOnFailure": true }
+      "output": { "outputOnFailure": true },
+      "execution": { "noTestsAction": "error" }
     }
   ]
 }
